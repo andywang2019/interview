@@ -1,0 +1,23 @@
+Components: 
+https://www.freecodecamp.org/news/function-component-vs-class-component-in-react/
+
+Function Components: These are simple JavaScript functions that take props as input and return JSX elements. They are often used for presentational or stateless components.
+
+Class Components: These are ES6 classes that extend from React.Component or React.PureComponent. They have a render() method where you define the structure of your component's UI using JSX. Class components are used for components that need to manage state or have lifecycle methods.
+
+
+React Hooks: Bridging the Gap
+
+Using Hooks for State Management (useState)
+The useState Hook is one of the most fundamental React Hooks. It allows function components to manage state without needing to define a class. Here's an example of how to use useState:
+
+Other Useful Hooks (useEffect, useContext, etc.)
+React provides several other Hooks for managing side effects, context, and more. Some commonly used ones include:
+
+useEffect: This Hook allows you to perform side effects in function components. It replaces lifecycle methods like componentDidMount, componentDidUpdate, and componentWillUnmount. You can use it to fetch data, subscribe to external events, or perform cleanup.
+
+useContext: This Hook allows you to consume context in function components. It allows you to access values from the nearest Context.Provider in the component tree.
+
+useReducer: This Hook is an alternative to useState for managing more complex state logic. It's based on the reducer pattern and is useful for managing state transitions in a predictable way.
+
+useCallback and useMemo: These Hooks are used for performance optimization. useCallback memoizes functions, preventing unnecessary re-renders, while useMemo memoizes values, preventing expensive calculations on every render.
