@@ -1,0 +1,58 @@
+<script type="text/javascript" language="javascript">
+   /* {
+        const  per={
+        name:'andy',
+        age:18
+
+    }
+    }*/
+
+    //console.log(per.name);
+
+/*    const myArray = ['apple', 'banana', 'orange'];
+    const myList = myArray.map((item) =>"<p>:id</p>")
+    console.log(myList);*/
+
+
+
+
+
+    function Person(name,age){
+        this.name=name;
+        this.age=age;
+
+
+    }
+   Person.prototype.setName=function(name){
+       this.name=name;
+   }
+   Person.prototype.setAge=function(age){
+       this.age=age;
+   }
+    var p=new Person('Yilun',23);
+  //  p.setName('Yilun2');
+
+   var p2=new Person('Andy',40);
+ //  p2.setName('Andy2');
+
+    console.log(p,p2);
+
+
+    function Student(name,age,department){
+        Person.call(this,name,age);
+        this.department=department;
+
+
+
+    }
+
+    Student.prototype=new Person();
+   Student.prototype.setDepartment=function(dname){
+       this.department=dname;
+   }
+    var s=new Student('Yilun',23,"EE");
+
+    s.setName("Yilun2")
+   console.log(s);
+
+</script>
