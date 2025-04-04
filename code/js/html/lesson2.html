@@ -1,13 +1,15 @@
 <script type="text/javascript" language="javascript">
-   /* {
-        const  per={
+    /*    const  per={
         name:'andy',
-        age:18
+        age:18,
+            setName:function(name){
+            this.name=name;
+            }
 
     }
-    }*/
 
-    //console.log(per.name);
+per.setName('andy3');
+    console.log(per);*/
 
 /*    const myArray = ['apple', 'banana', 'orange'];
     const myList = myArray.map((item) =>"<p>:id</p>")
@@ -20,12 +22,15 @@
     function Person(name,age){
         this.name=name;
         this.age=age;
+      //  this.setName=function  (name){
+      //      this.name=name;
+      //  }
 
 
     }
-   Person.prototype.setName=function(name){
+ Person.prototype.setName=function(name){
        this.name=name;
-   }
+  }
    Person.prototype.setAge=function(age){
        this.age=age;
    }
@@ -45,14 +50,17 @@
 
 
     }
-
+        Student.prototype.setDepartment=function(dname){
+            this.department=dname;
+        }
     Student.prototype=new Person();
-   Student.prototype.setDepartment=function(dname){
-       this.department=dname;
-   }
-    var s=new Student('Yilun',23,"EE");
+    Student.prototype.constructor=Student;
 
+
+    var s=new Student('Yilun',23,"EE");
+    console.log('test s:',s instanceof Student);
     s.setName("Yilun2")
-   console.log(s);
+        console.log("s",s);
+   console.log(s.__proto__);
 
 </script>

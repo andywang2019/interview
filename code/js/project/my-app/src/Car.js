@@ -32,7 +32,7 @@ function Garage() {
 }
 
 /*    
-function App() {
+function ReactHookForm() {
   const [color, setColor] = useState("red");
   const [count, setCount] = useState(0);
    // useEffect Hook to replicate componentDidMount and componentDidUpdate
