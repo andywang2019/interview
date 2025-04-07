@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script type="text/javascript" language="javascript">
+
+/*
+  Fn=function() {
+    console.log("Fn")
+  }
+  //Fn();
+  fn=new Fn();
+  console.log(Fn.prototype);
+  console.log(fn.__proto__);
+  console.log(fn.__proto__===Fn.prototype);
+  fn();
+*/
+
+
+  function fn1() {
+      var a = 2;
+      function fn2() {
+          a++;
+          console.log(a);
+      }
+      return fn2;
+  }
+  var f = fn1();
+  f();
+f();
+
+</script>
+
+</body>
+</html>
