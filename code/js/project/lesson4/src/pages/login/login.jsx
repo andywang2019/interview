@@ -20,6 +20,8 @@ const Item = Form.Item // 不能写在import之前
 
 /*
 登陆的路由组件
+
+function components :userRef()
  */
 class Login extends Component {
 
@@ -132,14 +134,14 @@ class Login extends Component {
 
 
     return (
-      <div className="login" align="middle">
+      <div className="login">
         <header className="login-header">
           <img src={logo} alt="logo"/>
           <h1>React项目: 后台管理系统</h1>
         </header>
-        <section className="login-content" >
+        <section className="login-content">
           <h2>用户登陆</h2>
-          <Form ref={this.formRef} onFinish={this.handleFinish}     wrapperCol={{ span: 16 }}   style={{ maxWidth: 600 }}>
+          <Form ref={this.formRef} onFinish={this.handleFinish} className="login-form">
             <Form.Item name="username" label="Username"
                        rules={[
                          { required: true, message: 'Please enter your username!' },
@@ -159,7 +161,7 @@ class Login extends Component {
 
 
             </Form.Item>
-            <Form.Item name="password" label="password" rules={[{ required: true }]}>
+            <Form.Item name="password" rules={[{ required: true }]}>
               <Input type="password" placeholder="密码"
                   />
 

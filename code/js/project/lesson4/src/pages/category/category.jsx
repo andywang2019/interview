@@ -5,27 +5,18 @@ import {
   Button,
 
   message,
-  Modal, Form
+  Modal
 } from 'antd'
 
 import LinkButton from '../../components/link-button'
 import {reqCategorys, reqUpdateCategory, reqAddCategory} from '../../api'
 import AddForm from './add-form'
-import RefAddForm from "./ref-add-form";
-import ChildForm from "./ref-add-form";
-import WrapperFunctionAddForm from "./wrapper-function-add-form";
-import ChildFormWrapper from "./wrapper-class-add-form";
-import UpdateForm from "./update-form";
 /*import UpdateForm from './update-form'*/
 
 /*
 商品分类路由
  */
-
-
 export default class Category extends Component {
-
-form = React.createRef()
 
   state = {
     loading: false, // 是否正在获取数据中
@@ -130,7 +121,7 @@ form = React.createRef()
    */
   handleCancel = () => {
     // 清除输入数据
-    this.form.current.getFormInstance().resetFields()
+    this.form.resetFields()
     // 隐藏确认框
     this.setState({
       showStatus: 0
@@ -150,13 +141,17 @@ form = React.createRef()
   添加分类
    */
   addCategory = () => {
-    this.form.current.getFormInstance().validateFields().then(async (values) => {
-
+    this.form.validateFields(async (err, values) => {
+      if (!err) {
+        // 隐藏确认框
+        this.setState({
+          showStatus: 0
+        })
 
         // 收集数据, 并提交添加分类的请求
         const {parentId, categoryName} = values
         // 清除输入数据
-        this.form.current.getFormInstance().resetFields()
+        this.form.resetFields()
         const result = await reqAddCategory(categoryName, parentId)
         if(result.status===0) {
 
@@ -168,18 +163,8 @@ form = React.createRef()
             this.getCategorys('0')
           }
         }
-      this.setState({
-        showStatus: 0
-      })
-     // }
+      }
     })
-        .catch((error) => {
-          console.log(error);
-            // 隐藏确认框
-            this.setState({
-              showStatus: 0
-            })
-        });
   }
 
 
@@ -201,34 +186,27 @@ form = React.createRef()
   updateCategory = () => {
     console.log('updateCategory()')
     // 进行表单验证, 只有通过了才处理
-    this.form.current.getFormInstance().validateFields().then(async ( values) => {
-
+    this.form.validateFields(async (err, values) => {
+      if(!err) {
+        // 1. 隐藏确定框
+        this.setState({
+          showStatus: 0
+        })
 
         // 准备数据
         const categoryId = this.category._id
-      console.log(categoryId);
         const {categoryName} = values
-      console.log("values",values);
         // 清除输入数据
-        this.form.current.getFormInstance().resetFields()
+        this.form.resetFields()
 
         // 2. 发请求更新分类
         const result = await reqUpdateCategory({categoryId, categoryName})
-      console.log("result",);
         if (result.status===0) {
           // 3. 重新显示列表
           this.getCategorys()
         }
-      this.setState({
-        showStatus: 0
-      })
-    }) .catch((error) => {
-      console.log(error);
-      // 隐藏确认框
-      this.setState({
-        showStatus: 0
-      })
-    });
+      }
+    })
 
 
   }
@@ -286,54 +264,27 @@ form = React.createRef()
 
         <Modal
           title="添加分类"
-          open={showStatus===1}
+          visible={showStatus===1}
           onOk={this.addCategory}
           onCancel={this.handleCancel}
         >
-    {/*      <FormWrapper formRef={this.form}>
           <AddForm
             categorys={categorys}
             parentId={parentId}
-           // setForm={(form) => {this.form = form}}
-           // form={this.form}
-           // form={this.props.form}
+            setForm={(form) => {this.form = form}}
           />
-          </FormWrapper>*/}
-   {/*       //2 child wrapper*/}
-   {/*       <WrapperFunctionAddForm
-              categorys={categorys}
-              parentId={parentId}
-               ref={this.form}
-
-          />*/}
-
-          {/*       //3 ref class child form*/}
-        <RefAddForm
-              categorys={categorys}
-              parentId={parentId}
-              ref={this.form}
-          ></RefAddForm>
-
-          {/*       //4 wrapper-class-add-form*/}
-        {/*  <ChildFormWrapper
-              categorys={categorys}
-              parentId={parentId}
-                          ref={this.form} />*/}
-
-
         </Modal>
 
         <Modal
           title="更新分类"
-          open={showStatus===2}
+          visible={showStatus===2}
           onOk={this.updateCategory}
           onCancel={this.handleCancel}
         >
-          <UpdateForm
+          {/*<UpdateForm
             categoryName={category.name}
-            parentId={parentId}
-           ref={this.form}
-          />
+            setForm={(form) => {this.form = form}}
+          />*/}
         </Modal>
       </Card>
     )

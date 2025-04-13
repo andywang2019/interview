@@ -1,4 +1,4 @@
-import React, {Component, createRef} from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {
   Form,
@@ -13,28 +13,25 @@ const Option = Select.Option
 添加分类的form组件
  */
 class AddForm extends Component {
-  //form = React.createRef(); // <-- Form ref
-
-
+  formRef = React.createRef(); // <-- Form ref
   static propTypes = {
-    //setForm: PropTypes.func.isRequired, // 用来传递form对象的函数
-      form: PropTypes.object.isRequired,
+    setForm: PropTypes.func.isRequired, // 用来传递form对象的函数
     categorys: PropTypes.array.isRequired, // 一级分类的数组
     parentId: PropTypes.string.isRequired, // 父分类的ID
   }
 
   componentWillMount () {
-   // this.props.setForm(this.form)
+    this.props.setForm(this.props.form)
   }
 
   render() {
     const {categorys, parentId} = this.props
-   const formref =this.props.form;
+    const { getFieldDecorator } = this.props.form
 
     return (
-      <Form form={formref}>
+      <Form ref={this.formRef}>
         <Form.Item name='parentId'>
-            <Select options={[{ value: '0', label: <span>一级分类</span> }]} />
+            <Select options={[{ value: 'sample', label: <span>sample</span> }]} />
 
 
 

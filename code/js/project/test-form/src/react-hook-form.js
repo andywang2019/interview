@@ -9,9 +9,12 @@ function ReactHookForm() {
     };
 
       return (
+
+         /* html <form>*/
         <form onSubmit={handleSubmit(onSubmit)}>
             <input
                 {...register("username")}
+
                 placeholder="Username"
             />
             <input
