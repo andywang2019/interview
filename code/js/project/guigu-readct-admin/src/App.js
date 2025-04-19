@@ -3,10 +3,10 @@ import './App.css';
 import Admin from "./pages/admin/admin";
 import Login from './pages/login/login'
 
-
 import {HashRouter as Router, Navigate, Route, Routes} from "react-router-dom";
 
 import {Layout} from "antd";
+
 function App() {
   return (
       <Router>

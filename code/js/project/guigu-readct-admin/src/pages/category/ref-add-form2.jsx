@@ -12,7 +12,7 @@ const Option = Select.Option
 /*
 添加分类的form组件
  */
-class RefAddForm extends Component {
+class RefAddForm2 extends Component {
     formRef = React.createRef(); // <-- Form ref
     getFormInstance = () => {
         return this.formRef.current;
@@ -25,9 +25,7 @@ class RefAddForm extends Component {
     parentId: PropTypes.string.isRequired, // 父分类的ID
   }
 
-  componentWillMount () {
-   // this.props.setForm(this.form)
-  }
+
 
   render() {
     const {categorys, parentId} = this.props
@@ -54,4 +52,4 @@ class RefAddForm extends Component {
 }
 
 
-export default RefAddForm;
+export default RefAddForm2;

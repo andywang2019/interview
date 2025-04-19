@@ -12,7 +12,7 @@ const Option = Select.Option
 /*
 添加分类的form组件
  */
-const WrapperFunctionAddForm = forwardRef(({ categorys, parentId }, ref) => {
+const WrapperFunctionAddForm3 = forwardRef(({ categorys, parentId }, ref) => {
     const [form] = Form.useForm();
 
     // 将内部方法暴露给外部使用
@@ -35,9 +35,9 @@ const WrapperFunctionAddForm = forwardRef(({ categorys, parentId }, ref) => {
     );
 });
 
-WrapperFunctionAddForm.propTypes = {
+WrapperFunctionAddForm3.propTypes = {
     categorys: PropTypes.array.isRequired,
     parentId: PropTypes.string.isRequired,
 };
 
-export default WrapperFunctionAddForm;
+export default WrapperFunctionAddForm3;

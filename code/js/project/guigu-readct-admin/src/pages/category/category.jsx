@@ -10,11 +10,11 @@ import {
 
 import LinkButton from '../../components/link-button'
 import {reqCategorys, reqUpdateCategory, reqAddCategory} from '../../api'
-import AddForm from './add-form'
-import RefAddForm from "./ref-add-form";
-import ChildForm from "./ref-add-form";
-import WrapperFunctionAddForm from "./wrapper-function-add-form";
-import ChildFormWrapper from "./wrapper-class-add-form";
+import AddForm1 from './add-form1'
+import RefAddForm2 from "./ref-add-form2";
+import ChildForm from "./ref-add-form2";
+import WrapperFunctionAddForm3 from "./wrapper-function-add-form3";
+import WrapperClassChildAddForm from "./wrapper-class-add-form4";
 import UpdateForm from "./update-form";
 /*import UpdateForm from './update-form'*/
 
@@ -290,35 +290,34 @@ form = React.createRef()
           onOk={this.addCategory}
           onCancel={this.handleCancel}
         >
-    {/*      <FormWrapper formRef={this.form}>
-          <AddForm
+
+
+        {/*// method1 callback setform
+         <AddForm1
             categorys={categorys}
             parentId={parentId}
-           // setForm={(form) => {this.form = form}}
-           // form={this.form}
-           // form={this.props.form}
-          />
-          </FormWrapper>*/}
-   {/*       //2 child wrapper*/}
-   {/*       <WrapperFunctionAddForm
-              categorys={categorys}
-              parentId={parentId}
-               ref={this.form}
-
+            setForm={(form) => {this.form = form}}
           />*/}
-
-          {/*       //3 ref class child form*/}
-        <RefAddForm
+      {/* //method2 ref  child class form
+        <RefAddForm2
               categorys={categorys}
               parentId={parentId}
               ref={this.form}
-          ></RefAddForm>
+          ></RefAddForm2>
+          */}
 
-          {/*       //4 wrapper-class-add-form*/}
-        {/*  <ChildFormWrapper
+{/*        //  3 child wrapper
+               <WrapperFunctionAddForm3
               categorys={categorys}
               parentId={parentId}
-                          ref={this.form} />*/}
+               ref={this.form}
+          />*/}
+
+           {/* //4 wrapper-class-add-form*/}
+          <WrapperClassChildAddForm
+              categorys={categorys}
+              parentId={parentId}
+                          ref={this.form} />
 
 
         </Modal>
