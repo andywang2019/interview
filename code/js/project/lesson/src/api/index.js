@@ -10,7 +10,7 @@ import {message} from 'antd'
 import ajax from './ajax'
 
 // const BASE = 'http://localhost:5000'
-const BASE = 'api'
+const BASE = '/api'
 // 登陆
 /*
 export function reqLogin(username, password) {
@@ -20,7 +20,7 @@ export const reqLogin = (username, password) => ajax(BASE + '/login', {username,
 
 // 获取一级/二级分类的列表
 export const reqCategorys = (parentId) => ajax(BASE + '/manage/category/list', {parentId})
-
+//export const reqUrlCategorys = (url,parentId) => ajax(url, {parentId})
 // 添加分类
 export const reqAddCategory = (categoryName, parentId) => ajax(BASE + '/manage/category/add', {categoryName, parentId}, 'POST')
 
@@ -58,8 +58,10 @@ export const reqSearchProducts = ({pageNum, pageSize, searchName, searchType}) =
 // 删除指定名称的图片
 export const reqDeleteImg = (name) => ajax(BASE + '/manage/img/delete', {name}, 'POST')
 
+
 // 添加/修改商品
 export const reqAddOrUpdateProduct = (product) => ajax(BASE + '/manage/product/' + ( product._id?'update':'add'), product, 'POST')
+//export const reqUrlAddOrUpdateProduct = (url,product) => ajax(url + ( product._id?'update':'add'), product, 'POST')
 // 修改商品
 // export const reqUpdateProduct = (product) => ajax(BASE + '/manage/product/update', product, 'POST')
 

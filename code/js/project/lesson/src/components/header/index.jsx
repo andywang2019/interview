@@ -83,7 +83,7 @@ class Header extends Component {
     // 获取当前的时间
     this.getTime()
     // 获取当前天气
-    this.getWeather()
+   // this.getWeather()
   }
   /*
   // 不能这么做: 不会更新显示
@@ -109,19 +109,19 @@ class Header extends Component {
     // 得到当前需要显示的title
     const title = this.getTitle()
     return (
-      <div className="header">
+      <div className="header" align={"right"}>
         <div className="header-top">
           <span>欢迎, {username}</span>
           <LinkButton onClick={this.logout}>退出</LinkButton>
         </div>
-  {/*      <div className="header-bottom">
-          <div className="header-bottom-left">{title}</div>
+       <div className="header-bottom" align={"right"}>
+         {/* <div className="header-bottom-left">{title}</div>*/}
           <div className="header-bottom-right">
             <span>{currentTime}</span>
-            <img src={dayPictureUrl} alt="weather"/>
-            <span>{weather}</span>
+           {/* <img src={dayPictureUrl} alt="weather"/>*/}
+           {/* <span>{weather}</span>*/}
           </div>
-        </div>*/}
+        </div>
       </div>
     )
   }

@@ -11,7 +11,7 @@ import LeftNav from '../../components/left-nav'
 import Header from '../../components/header'
 import Home from '../home/home'
 import Category from '../category/category'
-/*import Product from '../product/product'*/
+import Product from '../product/product'
 import Role from '../role/role'
 import User from '../user/user'
 import Bar from '../charts/bar'
@@ -35,7 +35,7 @@ render() {
 
                         <Route path='/home' element={<Home/>}/>
                         <Route path='/category' element={<Category/>}/>
-                        {/*         <Route path='/product' element={Product}/>*/}
+                        <Route path='/product/*' element={<Product/>}/>
                         <Route path='/user' element={<User/>}/>
                         <Route path='/role' element={<Role/>}/>
                         <Route path="/charts/bar" element={<Bar/>}/>
@@ -48,7 +48,7 @@ render() {
 
 
                 </Content>
-              {/*  <Footer style={{textAlign: 'center', color: '#cccccc'}}>推荐使用谷歌浏览器，可以获得更佳页面操作体验</Footer>*/}
+           {/*     <Footer style={{textAlign: 'center', color: '#cccccc'}}>推荐使用谷歌浏览器，可以获得更佳页面操作体验</Footer>*/}
             </Layout>
         </Layout>
     </div>)

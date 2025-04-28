@@ -130,7 +130,7 @@ form = React.createRef()
    */
   handleCancel = () => {
     // 清除输入数据
-    this.form.current.getFormInstance().resetFields()
+    this.form.current.resetFields()
     // 隐藏确认框
     this.setState({
       showStatus: 0
@@ -150,13 +150,13 @@ form = React.createRef()
   添加分类
    */
   addCategory = () => {
-    this.form.current.getFormInstance().validateFields().then(async (values) => {
+    this.form.current.validateFields().then(async (values) => {
 
 
         // 收集数据, 并提交添加分类的请求
         const {parentId, categoryName} = values
         // 清除输入数据
-        this.form.current.getFormInstance().resetFields()
+        this.form.current.resetFields()
         const result = await reqAddCategory(categoryName, parentId)
         if(result.status===0) {
 
@@ -201,7 +201,7 @@ form = React.createRef()
   updateCategory = () => {
     console.log('updateCategory()')
     // 进行表单验证, 只有通过了才处理
-    this.form.current.getFormInstance().validateFields().then(async ( values) => {
+    this.form.current.validateFields().then(async ( values) => {
 
 
         // 准备数据
@@ -210,7 +210,7 @@ form = React.createRef()
         const {categoryName} = values
       console.log("values",values);
         // 清除输入数据
-        this.form.current.getFormInstance().resetFields()
+        this.form.current.resetFields()
 
         // 2. 发请求更新分类
         const result = await reqUpdateCategory({categoryId, categoryName})
@@ -267,7 +267,11 @@ form = React.createRef()
     )
     // Card的右侧
     const extra = (
-      <Button type='primary' onClick={this.showAdd}>
+      <Button type='primary' onClick={() => {
+        this.setState({
+          showStatus: 1
+        })
+      }}>
      {/*   <Icon type='plus'/>*/}
         添加
       </Button>
@@ -292,19 +296,19 @@ form = React.createRef()
         >
 
 
-        {/*// method1 callback setform
+        {/*method1 callback setform
          <AddForm1
             categorys={categorys}
             parentId={parentId}
             setForm={(form) => {this.form = form}}
           />*/}
-      {/* //method2 ref  child class form
+     {/* method2 ref  child class form*/}
         <RefAddForm2
               categorys={categorys}
               parentId={parentId}
               ref={this.form}
           ></RefAddForm2>
-          */}
+
 
 {/*        //  3 child wrapper
                <WrapperFunctionAddForm3
@@ -314,10 +318,10 @@ form = React.createRef()
           />*/}
 
            {/* //4 wrapper-class-add-form*/}
-          <WrapperClassChildAddForm
+{/*          <WrapperClassChildAddForm
               categorys={categorys}
               parentId={parentId}
-                          ref={this.form} />
+              ref={this.form} />*/}
 
 
         </Modal>

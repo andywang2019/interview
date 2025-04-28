@@ -38,7 +38,6 @@ class ChildClasAddForm extends Component {
 
               <Input placeholder='请输入分类名称'/>
 
-
         </Form.Item>
       </Form>
     )

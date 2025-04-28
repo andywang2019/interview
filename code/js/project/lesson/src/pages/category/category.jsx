@@ -11,13 +11,17 @@ import {
 import LinkButton from '../../components/link-button'
 import {reqCategorys, reqUpdateCategory, reqAddCategory} from '../../api'
 import AddForm from './add-form'
+import Icon from "antd/es/icon";
+import UpdateForm from "./update-form";
+import {RightOutlined} from "@ant-design/icons";
+import WrapperClassChildAddForm from "./wrapper-class-add-form4";
 /*import UpdateForm from './update-form'*/
 
 /*
 商品分类路由
  */
 export default class Category extends Component {
-  formRef = React.createRef(); // <-- Form ref
+ form = React.createRef(); // <-- Form ref
   state = {
     loading: false, // 是否正在获取数据中
     categorys: [], // 一级分类列表
@@ -141,7 +145,7 @@ export default class Category extends Component {
   添加分类
    */
   addCategory = () => {
-    this.form.current.getFormInstance().validateFields().then(async ( values) => {
+    this.form.current.validateFields().then(async ( values) => {
      // if (!err) {
         // 隐藏确认框
         this.setState({
@@ -151,7 +155,7 @@ export default class Category extends Component {
         // 收集数据, 并提交添加分类的请求
         const {parentId, categoryName} = values
         // 清除输入数据
-        this.form.current.getFormInstance().resetFields()
+        this.form.current.resetFields()
         const result = await reqAddCategory(categoryName, parentId)
         if(result.status===0) {
 
@@ -164,7 +168,14 @@ export default class Category extends Component {
           }
       // }
       }
-    })
+    }).catch ((error)=> {
+      // Handle errors
+      message.error(error.message);
+      console.error('Add category error:', error);
+      // Re-show the form if needed
+      this.setState({ showStatus: 1 });
+    }
+    )
   }
 
 
@@ -186,8 +197,8 @@ export default class Category extends Component {
   updateCategory = () => {
     console.log('updateCategory()')
     // 进行表单验证, 只有通过了才处理
-    this.form.current.validateFields(async (err, values) => {
-      if(!err) {
+    this.form.current.validateFields().then(async (values) => {
+
         // 1. 隐藏确定框
         this.setState({
           showStatus: 0
@@ -205,7 +216,9 @@ export default class Category extends Component {
           // 3. 重新显示列表
           this.getCategorys()
         }
-      }
+
+    }).catch((err) => {
+      console.log(err);
     })
 
 
@@ -237,11 +250,14 @@ export default class Category extends Component {
 
     // card的左侧
     const title = parentId === '0' ? '一级分类列表' : (
-      <span>
-        <LinkButton onClick={this.showCategorys}>一级分类列表</LinkButton>
-       {/* <Icon type='arrow-right' style={{marginRight: 5}}/>*/}
+        <div style={{align:'left'}}>
+      <span >
+        <LinkButton  onClick={this.showCategorys}>一级分类列表</LinkButton>
+      {/* <Icon type='arrow-right' style={{marginRight: 5}}/>*/}
+        <RightOutlined  style={{marginRight: 5}}/>
         <span>{parentName}</span>
       </span>
+        </div>
     )
     // Card的右侧
     const extra = (
@@ -268,12 +284,17 @@ export default class Category extends Component {
           onOk={this.addCategory}
           onCancel={this.handleCancel}
         >
-          <AddForm
+       {/*   <AddForm
             categorys={categorys}
             parentId={parentId}
-            //setForm={(form) => {this.form = form}}
-              ref={this.formRef}
-          />
+           setForm={(form) => {this.form = form}}
+             ref={this.form}
+          />*/}
+
+            <WrapperClassChildAddForm
+                categorys={categorys}
+                parentId={parentId}
+                ref={this.form} />
         </Modal>
 
         <Modal
@@ -282,10 +303,11 @@ export default class Category extends Component {
           onOk={this.updateCategory}
           onCancel={this.handleCancel}
         >
-          {/*<UpdateForm
+          <UpdateForm
             categoryName={category.name}
             setForm={(form) => {this.form = form}}
-          />*/}
+
+          />
         </Modal>
       </Card>
     )

@@ -17,8 +17,7 @@ class AddForm1 extends Component {
 
 
   static propTypes = {
-    //setForm: PropTypes.func.isRequired, // 用来传递form对象的函数
-      form: PropTypes.object.isRequired,
+
     categorys: PropTypes.array.isRequired, // 一级分类的数组
     parentId: PropTypes.string.isRequired, // 父分类的ID
   }
