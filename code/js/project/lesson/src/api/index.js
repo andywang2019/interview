@@ -17,6 +17,7 @@ export function reqLogin(username, password) {
   return ajax('/login', {username, password}, 'POST')
 }*/
 export const reqLogin = (username, password) => ajax(BASE + '/login', {username, password}, 'POST')
+export const reqRegister = (username, password) => ajax(BASE + '/manage/user/add', {username, password}, 'POST')
 
 // 获取一级/二级分类的列表
 export const reqCategorys = (parentId) => ajax(BASE + '/manage/category/list', {parentId})

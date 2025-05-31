@@ -109,7 +109,7 @@ class Header extends Component {
     // 得到当前需要显示的title
     const title = this.getTitle()
     return (
-      <div className="header" align={"right"}>
+      <div className="header" align="right">
         <div className="header-top">
           <span>欢迎, {username}</span>
           <LinkButton onClick={this.logout}>退出</LinkButton>

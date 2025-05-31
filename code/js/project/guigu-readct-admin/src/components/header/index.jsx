@@ -63,6 +63,7 @@ class Header extends Component {
     // 显示确认框
     Modal.confirm({
       content: '确定退出吗?',
+      okText: '确定',
       onOk: () => {
         console.log('OK', this)
         // 删除保存的user数据
@@ -70,9 +71,9 @@ class Header extends Component {
         memoryUtils.user = {}
 
         // 跳转到login
-        this.props.history.replace('/login')
+       // this.props.history.replace('/login')
       }
-    })
+    });
   }
 
   /*
@@ -114,14 +115,14 @@ class Header extends Component {
           <span>欢迎, {username}</span>
           <LinkButton onClick={this.logout}>退出</LinkButton>
         </div>
-  {/*      <div className="header-bottom">
+        <div className="header-bottom">
           <div className="header-bottom-left">{title}</div>
           <div className="header-bottom-right">
             <span>{currentTime}</span>
-            <img src={dayPictureUrl} alt="weather"/>
-            <span>{weather}</span>
+           {/* <img src={dayPictureUrl} alt="weather"/>
+            <span>{weather}</span>*/}
           </div>
-        </div>*/}
+        </div>
       </div>
     )
   }

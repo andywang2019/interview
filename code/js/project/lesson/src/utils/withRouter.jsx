@@ -11,7 +11,7 @@ export default function withRouter(Component) {
         let navigate = useNavigate();
         let params = useParams();
         return (
-            <Component
+            <Component.js
                 {...props}
                 router={{ location, navigate, params }}
             />

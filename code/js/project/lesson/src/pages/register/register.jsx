@@ -7,9 +7,9 @@ import {
   Button,
   message
 } from 'antd'
-import './login.less'
+import './register.less'
 import logo from '../../assets/images/logo.png'
-import {reqLogin} from '../../api'
+import {reqLogin, reqRegister} from '../../api'
 import memoryUtils from '../../utils/memoryUtils'
 import storageUtils from '../../utils/storageUtils'
 import withRouter from "../../utils/withRouter";
@@ -23,7 +23,7 @@ const Item = Form.Item // 不能写在import之前
 
 function components :userRef()
  */
-class Login extends Component {
+class Register extends Component {
 
   formRef = React.createRef(); // <-- Form ref
   handleSubmit=()=>{
@@ -31,11 +31,11 @@ class Login extends Component {
         .validateFields()
         .then(async (values) => {
             console.log(values);
-            const result = await reqLogin(values.username, values.password) // {status: 0, data: user}  {status: 1, msg: 'xxx'}
-             console.log('请求成功', result)
+            const result = await reqRegister(values.username, values.password) // {status: 0, data: user}  {status: 1, msg: 'xxx'}
+             console.log('注册请求成功', result)
             if (result.status===0) { // 登陆成功
                 // 提示登陆成功
-                message.success(' test 登陆成功')
+                message.success('  注册成功')
 
                 // 保存user
                 const user = result.data
@@ -44,7 +44,8 @@ class Login extends Component {
 
                 // 跳转到管理界面 (不需要再回退回到登陆)
               //  this.props.history.replace('/')
-               this.props.navigate('/', { replace: true })
+              this.props.navigate('/', { replace: true })
+               // setTimeout(() =>this.props.navigate('/', { replace: true }), 1);
             } else { // 登陆失败
                 // 提示错误信息
                 message.error(result.msg)
@@ -60,71 +61,9 @@ class Login extends Component {
     }
   handleFinish = async (event) => {
 
-
-
-   /* // 对所有表单字段进行检验
-    this.props.formRef.validateFields(async (err, values) => {
-      // 检验成功
-      if (!err) {
-        // console.log('提交登陆的ajax请求', values)
-        // 请求登陆
-        const {username, password} = values
-        const result = await reqLogin(username, password) // {status: 0, data: user}  {status: 1, msg: 'xxx'}
-        // console.log('请求成功', result)
-        if (result.status===0) { // 登陆成功
-          // 提示登陆成功
-          message.success('登陆成功')
-
-          // 保存user
-          const user = result.data
-          memoryUtils.user = user // 保存在内存中
-          storageUtils.saveUser(user) // 保存到local中
-
-          // 跳转到管理界面 (不需要再回退回到登陆)
-          this.props.history.replace('/')
-
-        } else { // 登陆失败
-          // 提示错误信息
-          message.error(result.msg)
-        }
-
-      } else {
-        console.log('检验失败!')
-      }
-    });*/
-
-    // 得到form对象
-    // const form = this.props.form
-    // // 获取表单项的输入数据
-    // const values = form.getFieldsValue()
-    // console.log('handleSubmit()', values)
   }
 
-  /*
-  对密码进行自定义验证
-  */
-  /*
-   用户名/密码的的合法性要求
-     1). 必须输入
-     2). 必须大于等于4位
-     3). 必须小于等于12位
-     4). 必须是英文、数字或下划线组成
-    */
- /* validatePwd = (rule, value, callback) => {
-    console.log('validatePwd()', rule, value)
-    if(!value) {
-      callback('密码必须输入')
-    } else if (value.length<4) {
-      callback('密码长度不能小于4位')
-    } else if (value.length>12) {
-      callback('密码长度不能大于12位')
-    } else if (!/^[a-zA-Z0-9_]+$/.test(value)) {
-      callback('密码必须是英文、数字或下划线组成')
-    } else {
-      callback() // 验证通过
-    }
-    // callback('xxxx') // 验证失败, 并指定提示的文本
-  }*/
+
 
   render () {
 
@@ -144,7 +83,7 @@ class Login extends Component {
           <h1>React项目: 后台管理系统</h1>
         </header>
         <section className="login-content">
-          <h2>用户登陆</h2>
+          <h2>用户注册</h2>
           <Form ref={this.formRef} onFinish={this.handleFinish} className="login-form">
             <Form.Item name="username" label="Username"
                        rules={[
@@ -173,11 +112,9 @@ class Login extends Component {
             </Form.Item>
             <Form.Item>
               <Button type="primary" onClick={this.handleSubmit} className="login-form-button">
-                登陆
+                  注册
               </Button>
-                <Button type="primary" onClick={this.handleregister} className="login-form-button">
-                    注册
-                </Button>
+
             </Form.Item>
           </Form>
         </section>
@@ -206,12 +143,12 @@ class Login extends Component {
     4). 高阶组件也是高阶函数: 接收一个组件函数, 返回是一个新的组件函数
  */
 /*
-包装Form组件生成一个新的组件: Form(Login)
+包装Form组件生成一个新的组件: Form(Register)
 新组件会向Form组件传递一个强大的对象属性: form
  */
-//const [WrapLogin] = Form.useForm()(Login)
+//const [WrapLogin] = Form.useForm()(Register)
 //export default WrapLogin
-export default withRouter(Login);
+export default withRouter(Register);
 /*
 1. 前台表单验证
 2. 收集表单输入数据

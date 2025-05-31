@@ -17,6 +17,7 @@ import User from '../user/user'
 import Bar from '../charts/bar'
 import Line from '../charts/line'
 import Pie from '../charts/pie'
+import Register from "../register/register";
 
 export default class Admin extends Component {
 render() {
@@ -34,6 +35,7 @@ render() {
 
 
                         <Route path='/home' element={<Home/>}/>
+                        <Route path='/register' element={<Register/>}/>
                         <Route path='/category' element={<Category/>}/>
                         <Route path='/product/*' element={<Product/>}/>
                         <Route path='/user' element={<User/>}/>

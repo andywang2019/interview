@@ -38,10 +38,10 @@ function ReactHookForm() {
    // useEffect Hook to replicate componentDidMount and componentDidUpdate
 useEffect(() => {
   // This code block runs after every render
-  console.log("Component did mount or update");
+  console.log("Component.js did mount or update");
 
   return () => {
-    console.log("Component will unmount");
+    console.log("Component.js will unmount");
   };
 });
 

@@ -28,7 +28,7 @@ class Home extends Component{
     
       componentWillUnmount() {
         // Cleanup tasks before the component is unmounted
-        console.log('Component will unmount');
+        console.log('Component.js will unmount');
         // For example, remove event listeners, cancel ongoing tasks, etc.
       }
     
