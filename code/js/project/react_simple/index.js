@@ -1,4 +1,4 @@
-import React from './react/React';
+import React from './react/OldReact';
 import ReactDOM from './react/ReactDOM';
 
 // 函数组件示例
@@ -13,6 +13,8 @@ class Counter extends React.Component {
         super(props);
         this.state = { count: 0 };
     }
+
+
 
     handleClick = () => {
         this.setState({ count: this.state.count + 1 });
@@ -36,10 +38,11 @@ const App = () => (
     </div>
 );
 
-const ele=(<div>
-test
+const ele=(<div><div>
+test {count}
+</div>
 </div>)
 
 // 渲染到DOM
-ReactDOM.render(<App/>, document.getElementById('root'));
+ReactDOM.render(ele, document.getElementById('root'));
 console.log(ele);

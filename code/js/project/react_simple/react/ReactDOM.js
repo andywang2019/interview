@@ -1,4 +1,4 @@
-import React from './React';
+import React from './OldReact';
 
 // 设置DOM属性
 function setAttributes(dom, props) {
@@ -40,6 +40,7 @@ function createComponentElement(element) {
     if (!Component.prototype || !Component.prototype.isReactComponent) {
         try {
             return Component(props);
+
         } catch (error) {
             console.error('Function component error:', error);
             return { type: 'TEXT_ELEMENT', props: { nodeValue: '' } };
@@ -75,45 +76,10 @@ function render(element, container) {
         container.removeChild(container.firstChild);
     }
 
-    // 内部渲染函数
-    function _render(element, parentDom) {
-        if (!element) return null;
-
-        // 处理组件
-        if (typeof element.type === 'function') {
-            const componentElement = createComponentElement(element);
-            return _render(componentElement, parentDom);
-        }
-
-        // 创建DOM节点
-        const dom = element.type === "TEXT_ELEMENT"
-            ? document.createTextNode(element.props.nodeValue || "")
-            : document.createElement(element.type);
-
-        // 设置属性
-        if (element.type !== "TEXT_ELEMENT") {
-            setAttributes(dom, element.props);
-        }
-
-        // 递归渲染子元素
-        if (element.props.children) {
-            element.props.children.forEach(child => {
-                const childDom = _render(child, dom);
-                if (childDom) dom.appendChild(childDom);
-            });
-        }
-
-        // 保存DOM引用
-        if (element._instance) {
-            element._instance._currentDOM = dom;
-        }
-
-        parentDom.appendChild(dom);
-        return dom;
-    }
 
     _render(element, container);
 }
+
 
 const ReactDOM = {
     render,

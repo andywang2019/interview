@@ -668,19 +668,19 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 
 },{}],"jOXmm":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-var _react = require("./react/React");
-var _reactDefault = parcelHelpers.interopDefault(_react);
+var _oldReact = require("./react/OldReact");
+var _oldReactDefault = parcelHelpers.interopDefault(_oldReact);
 var _reactDOM = require("./react/ReactDOM");
 var _reactDOMDefault = parcelHelpers.interopDefault(_reactDOM);
 // 函数组件示例
 // 函数组件示例
 function Welcome(props) {
-    return /*#__PURE__*/ (0, _reactDefault.default).createElement("h1", {
+    return /*#__PURE__*/ (0, _oldReactDefault.default).createElement("h1", {
         className: "title"
     }, "Hello, ", props.name);
 }
 // 类组件示例
-class Counter extends (0, _reactDefault.default).Component {
+class Counter extends (0, _oldReactDefault.default).Component {
     constructor(props){
         super(props);
         this.state = {
@@ -693,25 +693,25 @@ class Counter extends (0, _reactDefault.default).Component {
         });
     };
     render() {
-        return /*#__PURE__*/ (0, _reactDefault.default).createElement("div", {
+        return /*#__PURE__*/ (0, _oldReactDefault.default).createElement("div", {
             style: {
                 padding: '10px'
             }
-        }, /*#__PURE__*/ (0, _reactDefault.default).createElement("p", null, "Count: ", this.state.count), /*#__PURE__*/ (0, _reactDefault.default).createElement("button", {
+        }, /*#__PURE__*/ (0, _oldReactDefault.default).createElement("p", null, "Count: ", this.state.count), /*#__PURE__*/ (0, _oldReactDefault.default).createElement("button", {
             onClick: this.handleClick
         }, "Increment"));
     }
 }
 // 主应用组件
-const App = ()=>/*#__PURE__*/ (0, _reactDefault.default).createElement("div", null, /*#__PURE__*/ (0, _reactDefault.default).createElement(Welcome, {
+const App = ()=>/*#__PURE__*/ (0, _oldReactDefault.default).createElement("div", null, /*#__PURE__*/ (0, _oldReactDefault.default).createElement(Welcome, {
         name: "Alice"
-    }), /*#__PURE__*/ (0, _reactDefault.default).createElement(Counter, null));
-const ele = /*#__PURE__*/ (0, _reactDefault.default).createElement("div", null, "test");
+    }), /*#__PURE__*/ (0, _oldReactDefault.default).createElement(Counter, null));
+const ele = /*#__PURE__*/ (0, _oldReactDefault.default).createElement("div", null, /*#__PURE__*/ (0, _oldReactDefault.default).createElement("div", null, "test ", count));
 // 渲染到DOM
-(0, _reactDOMDefault.default).render(/*#__PURE__*/ (0, _reactDefault.default).createElement(App, null), document.getElementById('root'));
+(0, _reactDOMDefault.default).render(ele, document.getElementById('root'));
 console.log(ele);
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","./react/ReactDOM":"e4HkQ","./react/React":"2SaEC"}],"jnFvT":[function(require,module,exports,__globalThis) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","./react/ReactDOM":"e4HkQ","./react/OldReact":"2Kk2l"}],"jnFvT":[function(require,module,exports,__globalThis) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -744,8 +744,8 @@ exports.export = function(dest, destName, get) {
 },{}],"e4HkQ":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-var _react = require("./React");
-var _reactDefault = parcelHelpers.interopDefault(_react);
+var _oldReact = require("./OldReact");
+var _oldReactDefault = parcelHelpers.interopDefault(_oldReact);
 // 设置DOM属性
 function setAttributes(dom, props) {
     Object.keys(props).filter((key)=>key !== "children").forEach((name)=>{
@@ -811,28 +811,6 @@ function render(element, container) {
     }
     // 清空容器
     while(container.firstChild)container.removeChild(container.firstChild);
-    // 内部渲染函数
-    function _render(element, parentDom) {
-        if (!element) return null;
-        // 处理组件
-        if (typeof element.type === 'function') {
-            const componentElement = createComponentElement(element);
-            return _render(componentElement, parentDom);
-        }
-        // 创建DOM节点
-        const dom = element.type === "TEXT_ELEMENT" ? document.createTextNode(element.props.nodeValue || "") : document.createElement(element.type);
-        // 设置属性
-        if (element.type !== "TEXT_ELEMENT") setAttributes(dom, element.props);
-        // 递归渲染子元素
-        if (element.props.children) element.props.children.forEach((child)=>{
-            const childDom = _render(child, dom);
-            if (childDom) dom.appendChild(childDom);
-        });
-        // 保存DOM引用
-        if (element._instance) element._instance._currentDOM = dom;
-        parentDom.appendChild(dom);
-        return dom;
-    }
     _render(element, container);
 }
 const ReactDOM = {
@@ -840,17 +818,19 @@ const ReactDOM = {
 };
 exports.default = ReactDOM;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","./React":"2SaEC"}],"2SaEC":[function(require,module,exports,__globalThis) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","./OldReact":"2Kk2l"}],"2Kk2l":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "createElement", ()=>createElement);
-var _component = require("./Component");
+const React = {
+    createElement,
+    render
+};
 function createElement(type, props, ...children) {
     return {
         type,
         props: {
             ...props,
-            children: children.map((child)=>typeof child === 'object' ? child : createTextElement(child))
+            children: children.flat().map((child)=>typeof child === "object" ? child : createTextElement(child))
         }
     };
 }
@@ -863,44 +843,76 @@ function createTextElement(text) {
         }
     };
 }
-exports.default = {
-    createElement,
-    Component: (0, _component.Component)
-};
-
-},{"./Component":"hlRer","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"hlRer":[function(require,module,exports,__globalThis) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Component", ()=>Component);
-var _reactDOM = require("./ReactDOM");
-var _reactDOMDefault = parcelHelpers.interopDefault(_reactDOM);
-class Component {
-    constructor(props){
-        this.props = props;
-        this.state = {};
-        this._currentDOM = null;
-        this._currentElement = null;
-    }
-    setState(partialState) {
-        // 合并状态
-        this.state = {
-            ...this.state,
-            ...partialState
-        };
-        // 找到父容器
-        const parentDOM = this._currentDOM.parentNode;
-        // 重新渲染
-        const newRenderedElement = this.render();
-        newRenderedElement._instance = this;
-        // 先移除旧DOM
-        parentDOM.removeChild(this._currentDOM);
-        // 渲染新DOM
-        (0, _reactDOMDefault.default).render(newRenderedElement, parentDOM);
-    }
+function setAttributes(dom, props) {
+    if (dom.nodeType === Node.TEXT_NODE) return;
+    if (typeof props !== "object" || props === null) return;
+    if (!dom || dom.nodeType !== Node.ELEMENT_NODE || !props) return;
+    Object.keys(props).filter((key)=>key !== "children").forEach((name)=>{
+        // 特殊属性处理
+        if (name === 'className') // class 属性特殊处理
+        dom.setAttribute('class', props[name]);
+        else if (name === 'htmlFor') // for 属性特殊处理（React 使用 htmlFor 代替 for）
+        dom.setAttribute('for', props[name]);
+        else if (name.startsWith('on') && typeof props[name] === 'function') {
+            // 事件处理
+            const eventType = name.toLowerCase().substring(2);
+            dom.addEventListener(eventType, props[name]);
+        } else if (name === 'style' && typeof props[name] === 'object') // style 对象处理
+        Object.assign(dom.style, props[name]);
+        else if (typeof props[name] === 'boolean') {
+            // 布尔属性处理
+            if (props[name]) dom.setAttribute(name, '');
+            else dom.removeAttribute(name);
+        } else if (name === 'dangerouslySetInnerHTML') // 危险地设置 HTML
+        {
+            if (props[name] && props[name].__html) dom.innerHTML = props[name].__html;
+        } else // 默认情况使用 setAttribute
+        dom.setAttribute(name, props[name]);
+    });
 }
-// 标记类组件
-Component.prototype.isReactComponent = {};
+// 简单的渲染函数
+function render(element, container) {
+    const dom = element.type === "TEXT_ELEMENT" ? document.createTextNode(element.props.nodeValue) : document.createElement(element.type);
+    // 设置属性
+    Object.keys(element.props).filter((key)=>key !== "children").forEach((name)=>{
+        // 特殊处理 className（因为 DOM 属性是 className 而 HTML 属性是 class）
+        if (name === 'className') {
+            dom.setAttribute('class', element.props[name]);
+            return;
+        }
+        // 处理事件（以 on 开头的属性）
+        if (name.startsWith('on')) {
+            const eventType = name.toLowerCase().substring(2);
+            dom.addEventListener(eventType, element.props[name]);
+            return;
+        }
+        // 处理 style 对象
+        if (name === 'style' && typeof element.props[name] === 'object') {
+            const styleObj = element.props[name];
+            Object.keys(styleObj).forEach((styleName)=>{
+                dom.style[styleName] = styleObj[styleName];
+            });
+            return;
+        }
+        // 布尔属性特殊处理（如 disabled, checked 等）
+        if (typeof element.props[name] === 'boolean') {
+            if (element.props[name]) dom.setAttribute(name, '');
+            else dom.removeAttribute(name);
+            return;
+        }
+        console.log(name, element.props[name]);
+        // 默认情况使用 setAttribute
+        if (element.type !== "TEXT_ELEMENT") {
+            setAttributes(dom, element.props);
+            dom.setAttribute(name, element.props[name]);
+        }
+    });
+    // 递归渲染子元素
+    element.props.children.forEach((child)=>render(child, dom));
+    container.appendChild(dom);
+}
+exports.default = React;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","./ReactDOM":"e4HkQ"}]},["kxwl6","jOXmm"], "jOXmm", "parcelRequire94c2", {})
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["kxwl6","jOXmm"], "jOXmm", "parcelRequire94c2", {})
 
 //# sourceMappingURL=react_simple.e02fbd41.js.map
