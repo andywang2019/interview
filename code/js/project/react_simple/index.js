@@ -27,16 +27,7 @@ class Counter extends React.Component {
                 <button onClick={this.handleClick}>Increment</button>
             </div>
         );
-        /*
-        return {
-            type: 'div',
-            props: {
-                children: [
-                    { type: 'p', props: { children: [`Count: ${this.state.count}`] } },
-                    { type: 'button', props: { onClick: this.handleClick, children: ['+'] } }
-                ]
-            }
-        };*/
+
     }
 }
 
