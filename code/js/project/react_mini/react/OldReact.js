@@ -31,7 +31,7 @@ function setAttributes(dom, props) {
     Object.keys(props)
         .filter(key => key !== "children")
         .forEach(name => {
-           /* // 特殊属性处理
+            // 特殊属性处理
             if (name === 'className') {
                 // class 属性特殊处理
                 dom.setAttribute('class', props[name]);
@@ -57,10 +57,10 @@ function setAttributes(dom, props) {
                 if (props[name] && props[name].__html) {
                     dom.innerHTML = props[name].__html;
                 }
-            } else {*/
+            } else {
                 // 默认情况使用 setAttribute
                 dom.setAttribute(name, props[name]);
-          //  }
+            }
         });
 }
 // 简单的渲染函数
@@ -69,7 +69,7 @@ function render(element, container) {
         element.type === "TEXT_ELEMENT"
             ? document.createTextNode(element.props.nodeValue)
             : document.createElement(element.type);
-    /*// 设置属性
+    // 设置属性
     Object.keys(element.props)
         .filter(key => key !== "children")
         .forEach(name => {
@@ -112,7 +112,7 @@ function render(element, container) {
                 dom.setAttribute(name, element.props[name]);
             }
 
-        });*/
+        });
 
     // 递归渲染子元素
     element.props.children.forEach(child => render(child, dom));

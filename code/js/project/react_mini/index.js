@@ -1,10 +1,10 @@
-import React from './react/React';
+import React from './react/OldReact';
 import ReactDOM from './react/ReactDOM';
 
 // 函数组件示例
 // 函数组件示例
 function Welcome(props) {
-    return <h1 className="title">Welcome, {props.name}</h1>;
+    return <h1 className="title">Hello, {props.name}</h1>;
 }
 
 // 类组件示例
@@ -27,16 +27,6 @@ class Counter extends React.Component {
                 <button onClick={this.handleClick}>Increment</button>
             </div>
         );
-        /*
-        return {
-            type: 'div',
-            props: {
-                children: [
-                    { type: 'p', props: { children: [`Count: ${this.state.count}`] } },
-                    { type: 'button', props: { onClick: this.handleClick, children: ['+'] } }
-                ]
-            }
-        };*/
     }
 }
 
@@ -48,7 +38,11 @@ const App = () => (
     </div>
 );
 
+const ele=(<div><div>
+test {count}
+</div>
+</div>)
 
 // 渲染到DOM
-ReactDOM.render(<App/>, document.getElementById('root'));
-//console.log(ele);
+ReactDOM.render(ele, document.getElementById('root'));
+console.log(ele);

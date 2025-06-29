@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Items List</h1>
+<div id="itemsContainer"></div>
+</body>
+
+<script>
+    function traverseNodes(node) {
+        node.childNodes.forEach(function(child) {
+            console.log(child.textContent);
+            traverseNodes(child); // 递归遍历子节点
+        });
+    }
+    function traverseNodes2(node) {
+        console.log(node.nodeName);
+        const dom =
+            node.type === "TEXT_ELEMENT"
+                ? document.createTextNode(node.props.nodeValue)
+                : document.createElement(node.type);
+        console.log(dom);
+        node.childNodes.forEach(child=>traverseNodes2(child));
+        container.appendChild(dom);
+    }
+    // 假设我们已经通过某种方式获取了XML字符串，例如从服务器请求
+    var xmlString ="<div><p>hello</p></div>"
+
+    // 使用DOMParser解析XML字符串
+    var parser = new DOMParser();
+    var xmlDoc = parser.parseFromString(xmlString, "text/xml");
+
+    // 获取所有的item节点
+    var items = xmlDoc.getElementsByTagName("div");
+
+    // 获取要插入数据的容器
+    var container = document.getElementById("itemsContainer");
+    traverseNodes2(xmlDoc.documentElement);
+    console.log(container);
+</script>
+
+</html>

@@ -160,7 +160,7 @@
       });
     }
   }
-})({"kxwl6":[function(require,module,exports,__globalThis) {
+})({"lYBJl":[function(require,module,exports,__globalThis) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
@@ -168,7 +168,7 @@ var HMR_SERVER_PORT = 1234;
 var HMR_SECURE = false;
 var HMR_ENV_HASH = "439701173a9199ea";
 var HMR_USE_SSE = false;
-module.bundle.HMR_BUNDLE_ID = "a726bb8fe02fbd41";
+module.bundle.HMR_BUNDLE_ID = "c85304260282e91b";
 "use strict";
 /* global HMR_HOST, HMR_PORT, HMR_SERVER_PORT, HMR_ENV_HASH, HMR_SECURE, HMR_USE_SSE, chrome, browser, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
 import type {
@@ -666,219 +666,20 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
     }
 }
 
-},{}],"jOXmm":[function(require,module,exports,__globalThis) {
+},{}],"17Zic":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-var _react = require("./react/React");
-var _reactDefault = parcelHelpers.interopDefault(_react);
-var _reactDOM = require("./react/ReactDOM");
-var _reactDOMDefault = parcelHelpers.interopDefault(_reactDOM);
-// 函数组件示例
-// 函数组件示例
-function Welcome(props) {
-    return /*#__PURE__*/ (0, _reactDefault.default).createElement("h1", {
-        className: "title"
-    }, "Welcome, ", props.name);
-}
-// 类组件示例
-class Counter extends (0, _reactDefault.default).Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            count: 0
-        };
-    }
-    handleClick = ()=>{
-        this.setState({
-            count: this.state.count + 1
-        });
-    };
-    render() {
-        return /*#__PURE__*/ (0, _reactDefault.default).createElement("div", {
-            style: {
-                padding: '10px'
-            }
-        }, /*#__PURE__*/ (0, _reactDefault.default).createElement("p", null, "Count: ", this.state.count), /*#__PURE__*/ (0, _reactDefault.default).createElement("button", {
-            onClick: this.handleClick
-        }, "Increment"));
-    /*
-    return {
-        type: 'div',
-        props: {
-            children: [
-                { type: 'p', props: { children: [`Count: ${this.state.count}`] } },
-                { type: 'button', props: { onClick: this.handleClick, children: ['+'] } }
-            ]
-        }
-    };*/ }
-}
-// 主应用组件
-const App = ()=>/*#__PURE__*/ (0, _reactDefault.default).createElement("div", null, /*#__PURE__*/ (0, _reactDefault.default).createElement(Welcome, {
-        name: "Alice"
-    }), /*#__PURE__*/ (0, _reactDefault.default).createElement(Counter, null));
+var _originReact = require("./react/OriginReact");
+var _originReactDefault = parcelHelpers.interopDefault(_originReact);
+//const ele=(<div><div><h1></h1></div></div>)
+//<div className='box><h1>Hello</h1><p>World</p></div>
+const ele = (0, _originReactDefault.default).createElement('div', {
+    className: 'box'
+}, (0, _originReactDefault.default).createElement('h1', null, 'Hello'), (0, _originReactDefault.default).createElement('p', null, 'World'));
 // 渲染到DOM
-(0, _reactDOMDefault.default).render(/*#__PURE__*/ (0, _reactDefault.default).createElement(App, null), document.getElementById('root')); //console.log(ele);
+(0, _originReactDefault.default).render(ele, document.getElementById('root'));
+console.log(ele);
 
-},{"./react/ReactDOM":"e4HkQ","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","./react/React":"2SaEC"}],"e4HkQ":[function(require,module,exports,__globalThis) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _react = require("./React");
-var _reactDefault = parcelHelpers.interopDefault(_react);
-// 设置DOM属性
-function setAttributes(dom, props) {
-    Object.keys(props).filter((key)=>key !== "children").forEach((name)=>{
-        const value = props[name];
-        if (name === 'className') dom.setAttribute('class', value);
-        else if (name.startsWith('on')) {
-            const eventType = name.toLowerCase().substring(2);
-            dom.addEventListener(eventType, value);
-        } else if (name === 'style' && typeof value === 'object') Object.assign(dom.style, value);
-        else if (typeof value === 'boolean') value ? dom.setAttribute(name, '') : dom.removeAttribute(name);
-        else dom.setAttribute(name, value);
-    });
-}
-// 创建组件元素
-function createComponentElement(element) {
-    const { type: Component, props } = element;
-    // 检查Component是否有效
-    if (typeof Component !== 'function') {
-        console.error('Invalid component type:', Component);
-        return {
-            type: 'TEXT_ELEMENT',
-            props: {
-                nodeValue: ''
-            }
-        };
-    }
-    // 处理函数组件
-    if (!Component.prototype || !Component.prototype.isReactComponent) try {
-        return Component(props);
-    } catch (error) {
-        console.error('Function component error:', error);
-        return {
-            type: 'TEXT_ELEMENT',
-            props: {
-                nodeValue: ''
-            }
-        };
-    }
-    // 处理类组件
-    try {
-        const instance = new Component(props);
-        if (typeof instance.render !== 'function') throw new Error('Class component missing render method');
-        const renderedElement = instance.render();
-        renderedElement._instance = instance;
-        instance._currentElement = renderedElement;
-        return renderedElement;
-    } catch (error) {
-        console.error('Class component error:', error);
-        return {
-            type: 'TEXT_ELEMENT',
-            props: {
-                nodeValue: ''
-            }
-        };
-    }
-}
-// 渲染实现
-function render(element, container) {
-    console.log(element, container);
-    if (!container || !container.nodeType) {
-        console.error('Invalid container:', container);
-        return;
-    }
-    // 清空容器
-    while(container.firstChild)container.removeChild(container.firstChild);
-    _render(element, container);
-}
-function _render(element, container) {
-    // 1. 处理 null / undefined / false 等无效元素
-    if (!element) return;
-    // 2. 处理组件类型（函数或类组件）
-    if (typeof element.type === 'function') {
-        element = createComponentElement(element); // 返回实际渲染的 VDOM
-        _render(element, container); // 递归渲染
-        return;
-    }
-    // 3. 创建真实 DOM 节点
-    const dom = element.type === 'TEXT_ELEMENT' ? document.createTextNode(element.props.nodeValue) : document.createElement(element.type);
-    // 4. 设置属性（排除 children）
-    if (element.type !== 'TEXT_ELEMENT') setAttributes(dom, element.props);
-    // 5. 递归渲染子节点
-    const children = element.props.children || [];
-    children.forEach((child)=>_render(child, dom));
-    // 6. 插入当前 DOM 到父容器
-    container.appendChild(dom);
-    // ✅ 核心：如果这个 element 是组件 render 出来的，绑定 DOM
-    if (element._instance) element._instance._currentDOM = dom;
-    return dom;
-}
-const ReactDOM = {
-    render
-};
-exports.default = ReactDOM;
-
-},{"./React":"2SaEC","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"2SaEC":[function(require,module,exports,__globalThis) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "createElement", ()=>createElement);
-var _component = require("./Component");
-function createElement(type, props, ...children) {
-    return {
-        type,
-        props: {
-            ...props,
-            children: children.map((child)=>typeof child === 'object' ? child : createTextElement(child))
-        }
-    };
-}
-function createTextElement(text) {
-    return {
-        type: "TEXT_ELEMENT",
-        props: {
-            nodeValue: text,
-            children: []
-        }
-    };
-}
-exports.default = {
-    createElement,
-    Component: (0, _component.Component)
-};
-
-},{"./Component":"hlRer","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"hlRer":[function(require,module,exports,__globalThis) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Component", ()=>Component);
-var _reactDOM = require("./ReactDOM");
-var _reactDOMDefault = parcelHelpers.interopDefault(_reactDOM);
-class Component {
-    constructor(props){
-        this.props = props;
-        this.state = {};
-        this._currentDOM = null;
-        this._currentElement = null;
-    }
-    setState(partialState) {
-        // 合并状态
-        this.state = {
-            ...this.state,
-            ...partialState
-        };
-        // 找到父容器
-        const parentDOM = this._currentDOM.parentNode;
-        // 重新渲染
-        const newRenderedElement = this.render();
-        newRenderedElement._instance = this;
-        // 先移除旧DOM
-        parentDOM.removeChild(this._currentDOM);
-        // 渲染新DOM
-        (0, _reactDOMDefault.default).render(newRenderedElement, parentDOM);
-    }
-}
-// 标记类组件
-Component.prototype.isReactComponent = {};
-
-},{"./ReactDOM":"e4HkQ","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"jnFvT":[function(require,module,exports,__globalThis) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","./react/OriginReact":"hAQUj"}],"jnFvT":[function(require,module,exports,__globalThis) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -908,6 +709,78 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}]},["kxwl6","jOXmm"], "jOXmm", "parcelRequire94c2", {})
+},{}],"hAQUj":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+const React = {
+    createElement,
+    render,
+    _render
+};
+function createElement(type, props, ...children) {
+    console.log(type, props, ...children);
+    return {
+        type,
+        props,
+        children: children.map((child)=>typeof child === 'object' ? child : createTextElement(child))
+    };
+}
+function createTextElement(text) {
+    return {
+        type: 'TEXT_ELEMENT',
+        props: {
+            nodeValue: text
+        },
+        children: []
+    };
+}
+function setAttributes(dom, props = {}) {
+    if (!props) return;
+    Object.keys(props).forEach((name)=>{
+        const value = props[name];
+        if (name === 'className') dom.setAttribute('class', value);
+        else if (name === 'style' && typeof value === 'object') Object.assign(dom.style, value);
+        else if (name.startsWith('on')) {
+            const event = name.toLowerCase().substring(2);
+            dom.addEventListener(event, value);
+        } else dom.setAttribute(name, value);
+    });
+}
+function createComponentElement(element) {
+    const { type: Component, props, children } = element;
+    if (!Component.prototype?.isReactComponent) // 函数组件
+    return Component(props || {});
+    // 类组件
+    const instance = new Component(props || {});
+    const renderedElement = instance.render();
+    renderedElement._instance = instance;
+    instance._currentElement = renderedElement;
+    return renderedElement;
+}
+function _render(element) {
+    if (!element) return document.createTextNode('');
+    if (typeof element.type === 'function') {
+        const compElement = createComponentElement(element);
+        return _render(compElement);
+    }
+    const { type, props, children } = element;
+    const dom = type === 'TEXT_ELEMENT' ? document.createTextNode(props.nodeValue) : document.createElement(type);
+    if (type !== 'TEXT_ELEMENT') setAttributes(dom, props);
+    (children || []).forEach((child)=>{
+        const childDom = _render(child);
+        dom.appendChild(childDom);
+    });
+    if (element._instance) element._instance._currentDOM = dom;
+    return dom;
+}
+function render(element, container) {
+    container.innerHTML = '';
+    const dom = _render(element);
+    container.appendChild(dom);
+    return dom;
+}
+exports.default = React;
 
-//# sourceMappingURL=react_simple.e02fbd41.js.map
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["lYBJl","17Zic"], "17Zic", "parcelRequire94c2", {})
+
+//# sourceMappingURL=index_origin.0282e91b.js.map

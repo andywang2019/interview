@@ -160,7 +160,7 @@
       });
     }
   }
-})({"kxwl6":[function(require,module,exports,__globalThis) {
+})({"4fcr8":[function(require,module,exports,__globalThis) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
@@ -168,7 +168,7 @@ var HMR_SERVER_PORT = 1234;
 var HMR_SECURE = false;
 var HMR_ENV_HASH = "439701173a9199ea";
 var HMR_USE_SSE = false;
-module.bundle.HMR_BUNDLE_ID = "a726bb8fe02fbd41";
+module.bundle.HMR_BUNDLE_ID = "d5c0fb3c22819647";
 "use strict";
 /* global HMR_HOST, HMR_PORT, HMR_SERVER_PORT, HMR_ENV_HASH, HMR_SECURE, HMR_USE_SSE, chrome, browser, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
 import type {
@@ -666,59 +666,143 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
     }
 }
 
-},{}],"jOXmm":[function(require,module,exports,__globalThis) {
+},{}],"dU3lh":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-var _react = require("./react/React");
-var _reactDefault = parcelHelpers.interopDefault(_react);
+var _oldReact = require("./react/OldReact");
+var _oldReactDefault = parcelHelpers.interopDefault(_oldReact);
 var _reactDOM = require("./react/ReactDOM");
 var _reactDOMDefault = parcelHelpers.interopDefault(_reactDOM);
-// 函数组件示例
-// 函数组件示例
-function Welcome(props) {
-    return /*#__PURE__*/ (0, _reactDefault.default).createElement("h1", {
-        className: "title"
-    }, "Welcome, ", props.name);
-}
-// 类组件示例
-class Counter extends (0, _reactDefault.default).Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            count: 0
-        };
-    }
-    handleClick = ()=>{
-        this.setState({
-            count: this.state.count + 1
-        });
-    };
-    render() {
-        return /*#__PURE__*/ (0, _reactDefault.default).createElement("div", {
-            style: {
-                padding: '10px'
-            }
-        }, /*#__PURE__*/ (0, _reactDefault.default).createElement("p", null, "Count: ", this.state.count), /*#__PURE__*/ (0, _reactDefault.default).createElement("button", {
-            onClick: this.handleClick
-        }, "Increment"));
-    /*
-    return {
-        type: 'div',
-        props: {
-            children: [
-                { type: 'p', props: { children: [`Count: ${this.state.count}`] } },
-                { type: 'button', props: { onClick: this.handleClick, children: ['+'] } }
-            ]
-        }
-    };*/ }
-}
-// 主应用组件
-const App = ()=>/*#__PURE__*/ (0, _reactDefault.default).createElement("div", null, /*#__PURE__*/ (0, _reactDefault.default).createElement(Welcome, {
-        name: "Alice"
-    }), /*#__PURE__*/ (0, _reactDefault.default).createElement(Counter, null));
+const ele = /*#__PURE__*/ (0, _oldReactDefault.default).createElement("div", null, /*#__PURE__*/ (0, _oldReactDefault.default).createElement("div", null, "test"));
 // 渲染到DOM
-(0, _reactDOMDefault.default).render(/*#__PURE__*/ (0, _reactDefault.default).createElement(App, null), document.getElementById('root')); //console.log(ele);
+(0, _oldReactDefault.default).render(ele, document.getElementById('root'));
+console.log(ele);
 
-},{"./react/ReactDOM":"e4HkQ","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","./react/React":"2SaEC"}],"e4HkQ":[function(require,module,exports,__globalThis) {
+},{"./react/OldReact":"2Kk2l","./react/ReactDOM":"e4HkQ","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"2Kk2l":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+const React = {
+    createElement,
+    render
+};
+function createElement(type, props, ...children) {
+    return {
+        type,
+        props: {
+            ...props,
+            children: children.flat().map((child)=>typeof child === "object" ? child : createTextElement(child))
+        }
+    };
+}
+function createTextElement(text) {
+    return {
+        type: "TEXT_ELEMENT",
+        props: {
+            nodeValue: text,
+            children: []
+        }
+    };
+}
+function setAttributes(dom, props) {
+    if (dom.nodeType === Node.TEXT_NODE) return;
+    if (typeof props !== "object" || props === null) return;
+    if (!dom || dom.nodeType !== Node.ELEMENT_NODE || !props) return;
+    Object.keys(props).filter((key)=>key !== "children").forEach((name)=>{
+        // 特殊属性处理
+        if (name === 'className') // class 属性特殊处理
+        dom.setAttribute('class', props[name]);
+        else if (name === 'htmlFor') // for 属性特殊处理（React 使用 htmlFor 代替 for）
+        dom.setAttribute('for', props[name]);
+        else if (name.startsWith('on') && typeof props[name] === 'function') {
+            // 事件处理
+            const eventType = name.toLowerCase().substring(2);
+            dom.addEventListener(eventType, props[name]);
+        } else if (name === 'style' && typeof props[name] === 'object') // style 对象处理
+        Object.assign(dom.style, props[name]);
+        else if (typeof props[name] === 'boolean') {
+            // 布尔属性处理
+            if (props[name]) dom.setAttribute(name, '');
+            else dom.removeAttribute(name);
+        } else if (name === 'dangerouslySetInnerHTML') // 危险地设置 HTML
+        {
+            if (props[name] && props[name].__html) dom.innerHTML = props[name].__html;
+        } else // 默认情况使用 setAttribute
+        dom.setAttribute(name, props[name]);
+    });
+}
+// 简单的渲染函数
+function render(element, container) {
+    const dom = element.type === "TEXT_ELEMENT" ? document.createTextNode(element.props.nodeValue) : document.createElement(element.type);
+    // 设置属性
+    Object.keys(element.props).filter((key)=>key !== "children").forEach((name)=>{
+        // 特殊处理 className（因为 DOM 属性是 className 而 HTML 属性是 class）
+        if (name === 'className') {
+            dom.setAttribute('class', element.props[name]);
+            return;
+        }
+        // 处理事件（以 on 开头的属性）
+        if (name.startsWith('on')) {
+            const eventType = name.toLowerCase().substring(2);
+            dom.addEventListener(eventType, element.props[name]);
+            return;
+        }
+        // 处理 style 对象
+        if (name === 'style' && typeof element.props[name] === 'object') {
+            const styleObj = element.props[name];
+            Object.keys(styleObj).forEach((styleName)=>{
+                dom.style[styleName] = styleObj[styleName];
+            });
+            return;
+        }
+        // 布尔属性特殊处理（如 disabled, checked 等）
+        if (typeof element.props[name] === 'boolean') {
+            if (element.props[name]) dom.setAttribute(name, '');
+            else dom.removeAttribute(name);
+            return;
+        }
+        console.log(name, element.props[name]);
+        // 默认情况使用 setAttribute
+        if (element.type !== "TEXT_ELEMENT") {
+            setAttributes(dom, element.props);
+            dom.setAttribute(name, element.props[name]);
+        }
+    });
+    // 递归渲染子元素
+    element.props.children.forEach((child)=>render(child, dom));
+    container.appendChild(dom);
+}
+exports.default = React;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"jnFvT":[function(require,module,exports,__globalThis) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, '__esModule', {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === 'default' || key === '__esModule' || Object.prototype.hasOwnProperty.call(dest, key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"e4HkQ":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _react = require("./React");
@@ -808,16 +892,13 @@ function _render(element, container) {
     children.forEach((child)=>_render(child, dom));
     // 6. 插入当前 DOM 到父容器
     container.appendChild(dom);
-    // ✅ 核心：如果这个 element 是组件 render 出来的，绑定 DOM
-    if (element._instance) element._instance._currentDOM = dom;
-    return dom;
 }
 const ReactDOM = {
     render
 };
 exports.default = ReactDOM;
 
-},{"./React":"2SaEC","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"2SaEC":[function(require,module,exports,__globalThis) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","./React":"2SaEC"}],"2SaEC":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "createElement", ()=>createElement);
@@ -878,36 +959,6 @@ class Component {
 // 标记类组件
 Component.prototype.isReactComponent = {};
 
-},{"./ReactDOM":"e4HkQ","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"jnFvT":[function(require,module,exports,__globalThis) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
-    };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, '__esModule', {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === 'default' || key === '__esModule' || Object.prototype.hasOwnProperty.call(dest, key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
-            }
-        });
-    });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
-};
+},{"./ReactDOM":"e4HkQ","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["4fcr8","dU3lh"], "dU3lh", "parcelRequire94c2", {})
 
-},{}]},["kxwl6","jOXmm"], "jOXmm", "parcelRequire94c2", {})
-
-//# sourceMappingURL=react_simple.e02fbd41.js.map
+//# sourceMappingURL=react_simple.22819647.js.map
