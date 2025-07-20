@@ -58,6 +58,7 @@ function Counter2() {
 }
 const element = <Counter2 />
 
+
 //const element = <App />
 const container = document.getElementById("root")
 Didact.render(element, container)
