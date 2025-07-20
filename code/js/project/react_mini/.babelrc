@@ -1,8 +1,0 @@
-{
-
-  "plugins": [
-    ["@babel/plugin-transform-react-jsx", {
-      "pragma": "React.createElement"  // 替换成你的自定义函数名
-    }]
-  ]
-}
