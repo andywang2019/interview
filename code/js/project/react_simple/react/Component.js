@@ -1,4 +1,6 @@
 import ReactDOM from './ReactDOM';
+
+//class component
 export class Component {
     constructor(props) {
         this.props = props;
