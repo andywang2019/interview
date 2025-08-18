@@ -669,276 +669,53 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 },{}],"jOXmm":[function(require,module,exports,__globalThis) {
 // app/page.tsx
 // This file demonstrates how to use our custom MyReact and MyReactDOM with JSX.
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "default", ()=>HomePage);
-// This component needs to be a Client Component to interact with the DOM
+//"use client" // This component needs to be a Client Component to interact with the DOM
 // Import MyReact and MyReactDOM.
 // When using JSX, the TypeScript compiler will automatically look for `jsx`, `jsxs`, and `Fragment`
 // exports from the module specified by `jsxImportSource` (or `react/jsx-runtime` by default).
 // By exporting these from `my-react.tsx`, we make our custom renderer the JSX runtime.
 //import { MyReact, MyReactDOM } from "./react/my-react"
+/*
 //import {MyReact, MyReactDOM } from "./react/fiberReact.tsx"
-var _didact = require("./react/didact");
-"use client";
-function HomePage() {
+
+// Render the App component into the root element
+export default function HomePage() {
     // We use React's useEffect here because HomePage is rendered by Next.js/React,
     // not by our custom MyReact renderer.
-    useEffect(()=>{
-        const rootElement = document.getElementById("root");
-        if (rootElement) // MyReactDOM.render expects an Element object, which is what JSX compiles to
-        MyReactDOM.render((0, _didact.Didact).createElement(App, null), rootElement);
-    }, []); // Empty dependency array means it runs once after initial render
-    return (0, _didact.Didact).createElement("div", {
-        id: "root",
-        className: "flex flex-col items-center justify-center min-h-screen bg-gray-50"
-    }, (0, _didact.Didact).createElement("p", {
-        className: "text-lg text-gray-600"
-    }, "Loading ercustom React app..."));
+    useEffect(() => {
+        const rootElement = document.getElementById("root")
+        if (rootElement) {
+            // MyReactDOM.render expects an Element object, which is what JSX compiles to
+            MyReactDOM.render(<App />, rootElement)
+        }
+    }, []) // Empty dependency array means it runs once after initial render
+
+    return (
+        <div id="root" className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
+
+            <p className="text-lg text-gray-600">Loading ercustom React app...</p>
+        </div>
+    )
 }
+
+
+
+const element = <App />
+const container = document.getElementById("root")
+MyReactDOM.render(element, container)
+*/ //import {Didact } from "./react/didact"
 /*
-// 主应用组件
-const App = () => (
-    <div>
-        <Welcome name="Alice" />
-        <Counter />
-    </div>
-);
-
-*/ /* @jsx Didact.createElement */ function Counter2() {
-    const [state, setState] = (0, _didact.Didact).useState(1);
-    return (0, _didact.Didact).createElement("h1", {
-        onClick: ()=>setState((c)=>c + 1)
-    }, "Count: ", state);
+function Counter2() {
+    const [state, setState] = Didact.useState(1)
+    return (
+        <h1 onClick={() => setState(c => c + 1)}>
+            Count: {state}
+        </h1>
+    )
 }
-const element = (0, _didact.Didact).createElement(Counter2, null);
-//const element = <App />
-const container = document.getElementById("root");
-(0, _didact.Didact).render(element, container);
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","./react/didact":"4zKkY"}],"jnFvT":[function(require,module,exports,__globalThis) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
-    };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, '__esModule', {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === 'default' || key === '__esModule' || Object.prototype.hasOwnProperty.call(dest, key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
-            }
-        });
-    });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
-};
-
-},{}],"4zKkY":[function(require,module,exports,__globalThis) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Didact", ()=>Didact);
-function createElement(type, props, ...children) {
-    return {
-        type,
-        props: {
-            ...props,
-            children: children.map((child)=>typeof child === "object" ? child : createTextElement(child))
-        }
-    };
-}
-function createTextElement(text) {
-    return {
-        type: "TEXT_ELEMENT",
-        props: {
-            nodeValue: text,
-            children: []
-        }
-    };
-}
-function createDom(fiber) {
-    const dom = fiber.type == "TEXT_ELEMENT" ? document.createTextNode("") : document.createElement(fiber.type);
-    updateDom(dom, {}, fiber.props);
-    return dom;
-}
-const isEvent = (key)=>key.startsWith("on");
-const isProperty = (key)=>key !== "children" && !isEvent(key);
-const isNew = (prev, next)=>(key)=>prev[key] !== next[key];
-const isGone = (prev, next)=>(key)=>!(key in next);
-function updateDom(dom, prevProps, nextProps) {
-    //Remove old or changed event listeners
-    Object.keys(prevProps).filter(isEvent).filter((key)=>!(key in nextProps) || isNew(prevProps, nextProps)(key)).forEach((name)=>{
-        const eventType = name.toLowerCase().substring(2);
-        dom.removeEventListener(eventType, prevProps[name]);
-    });
-    // Remove old properties
-    Object.keys(prevProps).filter(isProperty).filter(isGone(prevProps, nextProps)).forEach((name)=>{
-        dom[name] = "";
-    });
-    // Set new or changed properties
-    Object.keys(nextProps).filter(isProperty).filter(isNew(prevProps, nextProps)).forEach((name)=>{
-        dom[name] = nextProps[name];
-    });
-    // Add event listeners
-    Object.keys(nextProps).filter(isEvent).filter(isNew(prevProps, nextProps)).forEach((name)=>{
-        const eventType = name.toLowerCase().substring(2);
-        dom.addEventListener(eventType, nextProps[name]);
-    });
-}
-function commitRoot() {
-    deletions.forEach(commitWork);
-    commitWork(wipRoot.child);
-    currentRoot = wipRoot;
-    wipRoot = null;
-}
-function commitWork(fiber) {
-    if (!fiber) return;
-    let domParentFiber = fiber.parent;
-    while(!domParentFiber.dom)domParentFiber = domParentFiber.parent;
-    const domParent = domParentFiber.dom;
-    if (fiber.effectTag === "PLACEMENT" && fiber.dom != null) domParent.appendChild(fiber.dom);
-    else if (fiber.effectTag === "UPDATE" && fiber.dom != null) updateDom(fiber.dom, fiber.alternate.props, fiber.props);
-    else if (fiber.effectTag === "DELETION") commitDeletion(fiber, domParent);
-    commitWork(fiber.child);
-    commitWork(fiber.sibling);
-}
-function commitDeletion(fiber, domParent) {
-    if (fiber.dom) domParent.removeChild(fiber.dom);
-    else commitDeletion(fiber.child, domParent);
-}
-function render(element, container) {
-    wipRoot = {
-        dom: container,
-        props: {
-            children: [
-                element
-            ]
-        },
-        alternate: currentRoot
-    };
-    deletions = [];
-    nextUnitOfWork = wipRoot;
-}
-let nextUnitOfWork = null;
-let currentRoot = null;
-let wipRoot = null;
-let deletions = null;
-function workLoop(deadline) {
-    let shouldYield = false;
-    while(nextUnitOfWork && !shouldYield){
-        nextUnitOfWork = performUnitOfWork(nextUnitOfWork);
-        shouldYield = deadline.timeRemaining() < 1;
-    }
-    if (!nextUnitOfWork && wipRoot) commitRoot();
-    requestIdleCallback(workLoop);
-}
-requestIdleCallback(workLoop);
-function performUnitOfWork(fiber) {
-    const isFunctionComponent = fiber.type instanceof Function;
-    if (isFunctionComponent) updateFunctionComponent(fiber);
-    else updateHostComponent(fiber);
-    if (fiber.child) return fiber.child;
-    let nextFiber = fiber;
-    while(nextFiber){
-        if (nextFiber.sibling) return nextFiber.sibling;
-        nextFiber = nextFiber.parent;
-    }
-}
-let wipFiber = null;
-let hookIndex = null;
-function updateFunctionComponent(fiber) {
-    wipFiber = fiber;
-    hookIndex = 0;
-    wipFiber.hooks = [];
-    const children = [
-        fiber.type(fiber.props)
-    ];
-    reconcileChildren(fiber, children);
-}
-function useState(initial) {
-    const oldHook = wipFiber.alternate && wipFiber.alternate.hooks && wipFiber.alternate.hooks[hookIndex];
-    const hook = {
-        state: oldHook ? oldHook.state : initial,
-        queue: []
-    };
-    const actions = oldHook ? oldHook.queue : [];
-    actions.forEach((action)=>{
-        hook.state = action(hook.state);
-    });
-    const setState = (action)=>{
-        hook.queue.push(action);
-        wipRoot = {
-            dom: currentRoot.dom,
-            props: currentRoot.props,
-            alternate: currentRoot
-        };
-        nextUnitOfWork = wipRoot;
-        deletions = [];
-    };
-    wipFiber.hooks.push(hook);
-    hookIndex++;
-    return [
-        hook.state,
-        setState
-    ];
-}
-function updateHostComponent(fiber) {
-    if (!fiber.dom) fiber.dom = createDom(fiber);
-    reconcileChildren(fiber, fiber.props.children);
-}
-function reconcileChildren(wipFiber, elements) {
-    let index = 0;
-    let oldFiber = wipFiber.alternate && wipFiber.alternate.child;
-    let prevSibling = null;
-    while(index < elements.length || oldFiber != null){
-        const element = elements[index];
-        let newFiber = null;
-        const sameType = oldFiber && element && element.type == oldFiber.type;
-        if (sameType) newFiber = {
-            type: oldFiber.type,
-            props: element.props,
-            dom: oldFiber.dom,
-            parent: wipFiber,
-            alternate: oldFiber,
-            effectTag: "UPDATE"
-        };
-        if (element && !sameType) newFiber = {
-            type: element.type,
-            props: element.props,
-            dom: null,
-            parent: wipFiber,
-            alternate: null,
-            effectTag: "PLACEMENT"
-        };
-        if (oldFiber && !sameType) {
-            oldFiber.effectTag = "DELETION";
-            deletions.push(oldFiber);
-        }
-        if (oldFiber) oldFiber = oldFiber.sibling;
-        if (index === 0) wipFiber.child = newFiber;
-        else if (element) prevSibling.sibling = newFiber;
-        prevSibling = newFiber;
-        index++;
-    }
-}
-const Didact = {
-    createElement,
-    render,
-    useState
-};
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["kxwl6","jOXmm"], "jOXmm", "parcelRequire94c2", {})
+const element = <Counter2 />
+Didact.render(element, container)
+*/ 
+},{}]},["kxwl6","jOXmm"], "jOXmm", "parcelRequire94c2", {})
 
 //# sourceMappingURL=react_fiber.e02fbd41.js.map

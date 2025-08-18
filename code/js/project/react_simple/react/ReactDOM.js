@@ -6,6 +6,8 @@ let hookIndex = 0
 let rootContainer = null
 let rootElement = null
 let isRendering = false
+let scheduled = false;
+let passiveScheduled = false;
 
 // 组件实例存储 - 使用组件函数的名称和位置作为 key
 const componentInstances = new Map()
@@ -195,6 +197,47 @@ function _render(element, container) {
     return dom
 }
 
+function executeEffects(instance) {
+    const effects = instance.effects || [];
+    instance.effects = [];                   // 先取出并清空
+    effects.sort((a,b) => a.index - b.index); // 按声明顺序稳定执行
+
+    for (const eff of effects) {
+        const hook = instance.hooks[eff.index];
+        // 先清理上一次
+        if (hook && typeof hook.cleanup === "function") {
+            try { hook.cleanup(); } catch (e) { console.error("cleanup error:", e); }
+            hook.cleanup = null;
+        }
+        // 执行本次 effect，并保存新的 cleanup
+        try {
+            const ret = eff.callback?.();
+            if (typeof ret === "function") hook.cleanup = ret;
+        } catch (e) {
+            console.error("effect error:", e);
+        }
+    }
+}
+function schedulePassiveEffectsFlush() {
+    if (passiveScheduled) return;
+    passiveScheduled = true;
+
+    requestAnimationFrame(() => {
+        setTimeout(() => {           // rAF 到下一帧，再丢到宏任务：大概率在 paint 之后
+            passiveScheduled = false;
+            flushEffectsPhase();       // <— 这里统一调用 executeEffects
+        }, 0);
+    });
+}
+
+function flushEffectsPhase() {
+    // 如果维护了脏实例集合，可只遍历脏的；这里演示全量
+    for (const [, inst] of componentInstances) {
+        executeEffects(inst);
+    }
+}
+
+
 // 调度重新渲染
 function scheduleRerender(instance) {
     console.log("scheduleRerender called with instance:", instance)
@@ -248,6 +291,8 @@ function scheduleRerender(instance) {
             console.error("Error during re-render:", error)
             isRendering = false
         }
+        // —— 提交后再安排被动 effects（尽量在下一帧绘制后） ——
+      schedulePassiveEffectsFlush();
     }, 0)
 }
 

@@ -36,14 +36,14 @@ function FunCounter() {
  //   const [message, setMessage] = React.useState("Hello!")
 
     React.useEffect(() => {
-        console.log("Count changed:", count)
+        console.log("useEffect Count changed:", count)
       //  setMessage(`Count is now ${count}`)
     }, [count])
 
-    /*React.useEffect(() => {
-        console.log("Component mounted")
+    React.useEffect(() => {
+        console.log(" useEffect Component mounted")
         const timer = setInterval(() => {
-            console.log("Timer tick")
+            console.log("useEffect Timer tick")
         }, 2000)
 
         return () => {
@@ -51,14 +51,14 @@ function FunCounter() {
             clearInterval(timer)
         }
     }, [])
-*/
+
     return (
         <div style={{ padding: "20px", border: "1px solid #007bff", borderRadius: "8px", margin: "10px" }}>
             <h3>Function Counter</h3>
             <p>Count: {count}</p>
          {/*   <p>Message: {message}</p>*/}
             <button
-                onClick={() => setCount(count + 1)}
+                onClick={() =>{ setCount((cnt)=>cnt+1); setCount((cnt)=>cnt+1)}}
                 style={{
                     padding: "8px 16px",
                     backgroundColor: "#007bff",

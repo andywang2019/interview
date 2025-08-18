@@ -1,6 +1,6 @@
 // app/page.tsx
 // This file demonstrates how to use our custom MyReact and MyReactDOM with JSX.
-"use client" // This component needs to be a Client Component to interact with the DOM
+//"use client" // This component needs to be a Client Component to interact with the DOM
 
 // Import MyReact and MyReactDOM.
 // When using JSX, the TypeScript compiler will automatically look for `jsx`, `jsxs`, and `Fragment`
@@ -9,12 +9,9 @@
 //import { MyReact, MyReactDOM } from "./react/my-react"
 
 
+
+/*
 //import {MyReact, MyReactDOM } from "./react/fiberReact.tsx"
-import {Didact } from "./react/didact"
-
-//import { useEffect } from "react" // Import React's useEffect for the root component
-
-
 
 // Render the App component into the root element
 export default function HomePage() {
@@ -30,24 +27,20 @@ export default function HomePage() {
 
     return (
         <div id="root" className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
-            {/* The content will be rendered into this div by our custom renderer */}
+
             <p className="text-lg text-gray-600">Loading ercustom React app...</p>
         </div>
     )
 }
 
 
-/*
-// 主应用组件
-const App = () => (
-    <div>
-        <Welcome name="Alice" />
-        <Counter />
-    </div>
-);
 
+const element = <App />
+const container = document.getElementById("root")
+MyReactDOM.render(element, container)
 */
-/* @jsx Didact.createElement */
+//import {Didact } from "./react/didact"
+/*
 function Counter2() {
     const [state, setState] = Didact.useState(1)
     return (
@@ -57,8 +50,7 @@ function Counter2() {
     )
 }
 const element = <Counter2 />
-
-
-//const element = <App />
-const container = document.getElementById("root")
 Didact.render(element, container)
+*/
+
+
