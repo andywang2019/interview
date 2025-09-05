@@ -234,11 +234,11 @@ function useRef(initialValue) {
 const React = {
     createElement,
     useState,
-    useReducer,
     useEffect,
-    useMemo,
-    useCallback,
+    useMemo,  //performance improvement
+    useCallback,  //performance improvement
     useRef,
+    useReducer,
     Component
 }
 

@@ -30,11 +30,45 @@ class Counter extends React.Component {
 
     }
 }
+
+function counterReducer(state, action) {
+    switch (action.type) {
+        case "increment":
+            return state + 1
+        case "decrement":
+            return state - 1
+        case "reset":
+            return 0
+        default:
+            return state
+    }
+}
 // 1. 函数组件 - useState & useEffect
 function FunCounter() {
     const [count, setCount] = React.useState(0)
  //   const [message, setMessage] = React.useState("Hello!")
 
+
+    const [name, setName] = React.useState("")
+
+    const [red_count, dispatch] = React.useReducer(counterReducer, 0)  //redux
+
+    // 用 useMemo 缓存一个昂贵的计算结果
+   //let expensiveValue =1
+    const expensiveValue = React.useMemo(() => {
+       console.log("正在执行耗时计算 ...")
+        // 模拟一个耗时计算，比如计算阶乘
+        let result = 1
+       for (let i = 1; i <= count * 10000000; i++) {
+           result = (result * i) % 1000000007 // 取模避免溢出
+        }
+       return result
+    }, [count])
+    const handleClick = React.useCallback(() => {
+        setCount(c => c + 1);
+    }, []);
+
+    //  expensiveValue=result
     React.useEffect(() => {
         console.log("useEffect Count changed:", count)
       //  setMessage(`Count is now ${count}`)
@@ -56,9 +90,10 @@ function FunCounter() {
         <div style={{ padding: "20px", border: "1px solid #007bff", borderRadius: "8px", margin: "10px" }}>
             <h3>Function Counter</h3>
             <p>Count: {count}</p>
-         {/*   <p>Message: {message}</p>*/}
+            <p>Expensive Value: {expensiveValue}</p>
+            {/*   <p>Message: {message}</p>*/}
             <button
-                onClick={() =>{ setCount((cnt)=>cnt+1); setCount((cnt)=>cnt+1)}}
+                onClick={() =>{ handleClick()}}
                 style={{
                     padding: "8px 16px",
                     backgroundColor: "#007bff",
@@ -70,6 +105,22 @@ function FunCounter() {
             >
                 Increment
             </button>
+
+            <input
+                type="text"
+                value={name}
+                placeholder="请输入名字"
+                onChange={(e) => setName(e.target.value)}
+                style={{marginBottom: "10px", padding:"6px"}}
+            />
+            <p>Name: {name}</p>
+            <div>
+                <p>Count: {red_count}</p>
+                <button onClick={() => dispatch({ type: "increment" })}>+1</button>
+                <button onClick={() => dispatch({ type: "decrement" })}>-1</button>
+                <button onClick={() => dispatch({ type: "reset" })}>Reset</button>
+            </div>
+
         </div>
     )
 }

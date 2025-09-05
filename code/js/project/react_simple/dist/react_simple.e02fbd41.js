@@ -702,10 +702,39 @@ class Counter extends (0, _reactDefault.default).Component {
         }, "Increment"));
     }
 }
+function counterReducer(state, action) {
+    switch(action.type){
+        case "increment":
+            return state + 1;
+        case "decrement":
+            return state - 1;
+        case "reset":
+            return 0;
+        default:
+            return state;
+    }
+}
 // 1. 函数组件 - useState & useEffect
 function FunCounter() {
     const [count, setCount] = (0, _reactDefault.default).useState(0);
     //   const [message, setMessage] = React.useState("Hello!")
+    const [name, setName] = (0, _reactDefault.default).useState("");
+    const [red_count, dispatch] = (0, _reactDefault.default).useReducer(counterReducer, 0); //redux
+    // 用 useMemo 缓存一个昂贵的计算结果
+    //let expensiveValue =1
+    const expensiveValue = (0, _reactDefault.default).useMemo(()=>{
+        console.log("\u6B63\u5728\u6267\u884C\u8017\u65F6\u8BA1\u7B97 ...");
+        // 模拟一个耗时计算，比如计算阶乘
+        let result = 1;
+        for(let i = 1; i <= count * 10000000; i++)result = result * i % 1000000007; // 取模避免溢出
+        return result;
+    }, [
+        count
+    ]);
+    const handleClick = (0, _reactDefault.default).useCallback(()=>{
+        setCount((c)=>c + 1);
+    }, []);
+    //  expensiveValue=result
     (0, _reactDefault.default).useEffect(()=>{
         console.log("useEffect Count changed:", count);
     //  setMessage(`Count is now ${count}`)
@@ -729,10 +758,9 @@ function FunCounter() {
             borderRadius: "8px",
             margin: "10px"
         }
-    }, /*#__PURE__*/ (0, _reactDefault.default).createElement("h3", null, "Function Counter"), /*#__PURE__*/ (0, _reactDefault.default).createElement("p", null, "Count: ", count), /*#__PURE__*/ (0, _reactDefault.default).createElement("button", {
+    }, /*#__PURE__*/ (0, _reactDefault.default).createElement("h3", null, "Function Counter"), /*#__PURE__*/ (0, _reactDefault.default).createElement("p", null, "Count: ", count), /*#__PURE__*/ (0, _reactDefault.default).createElement("p", null, "Expensive Value: ", expensiveValue), /*#__PURE__*/ (0, _reactDefault.default).createElement("button", {
         onClick: ()=>{
-            setCount((cnt)=>cnt + 1);
-            setCount((cnt)=>cnt + 1);
+            handleClick();
         },
         style: {
             padding: "8px 16px",
@@ -742,7 +770,28 @@ function FunCounter() {
             borderRadius: "4px",
             cursor: "pointer"
         }
-    }, "Increment"));
+    }, "Increment"), /*#__PURE__*/ (0, _reactDefault.default).createElement("input", {
+        type: "text",
+        value: name,
+        placeholder: "\u8BF7\u8F93\u5165\u540D\u5B57",
+        onChange: (e)=>setName(e.target.value),
+        style: {
+            marginBottom: "10px",
+            padding: "6px"
+        }
+    }), /*#__PURE__*/ (0, _reactDefault.default).createElement("p", null, "Name: ", name), /*#__PURE__*/ (0, _reactDefault.default).createElement("div", null, /*#__PURE__*/ (0, _reactDefault.default).createElement("p", null, "Count: ", red_count), /*#__PURE__*/ (0, _reactDefault.default).createElement("button", {
+        onClick: ()=>dispatch({
+                type: "increment"
+            })
+    }, "+1"), /*#__PURE__*/ (0, _reactDefault.default).createElement("button", {
+        onClick: ()=>dispatch({
+                type: "decrement"
+            })
+    }, "-1"), /*#__PURE__*/ (0, _reactDefault.default).createElement("button", {
+        onClick: ()=>dispatch({
+                type: "reset"
+            })
+    }, "Reset")));
 }
 // 主应用组件
 const App = ()=>/*#__PURE__*/ (0, _reactDefault.default).createElement("div", null, /*#__PURE__*/ (0, _reactDefault.default).createElement(FunCounter, null));
@@ -1227,11 +1276,13 @@ function useRef(initialValue) {
 const React = {
     createElement,
     useState,
-    useReducer,
     useEffect,
     useMemo,
+    //performance improvement
     useCallback,
+    //performance improvement
     useRef,
+    useReducer,
     Component: (0, _component.Component)
 };
 exports.default = React; //export default {
