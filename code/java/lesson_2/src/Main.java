@@ -17,6 +17,7 @@ public class Main {
             fun2(a);
 
             System.out.println(a);
+        System.out.println(Thread.currentThread().getName());
       //  }
     }
 

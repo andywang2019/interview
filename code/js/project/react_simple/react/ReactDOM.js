@@ -47,7 +47,7 @@ function executeEffects(instance) {
 }
 
 // 设置DOM属性
-function setAttributes(dom, props) {
+function setAttributes(dom, props = {}) {
     Object.keys(props)
         .filter((key) => key !== "children")
         .forEach((name) => {
@@ -169,6 +169,16 @@ function render(element, container) {
 
 function _render(element, container) {
     if (!element) return
+    if (element === null || element === undefined) {
+        return;
+    }
+    // 如果不是对象（比如 boolean），直接跳过
+    if (typeof element !== "object") {
+        return;
+    }
+
+    // 防御：props 至少是个空对象
+    const { type, props = {} } = element;
 
     if (typeof element.type === "function") {
         element = createComponentElement(element)

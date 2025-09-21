@@ -125,12 +125,36 @@ function FunCounter() {
     )
 }
 
+// 创建上下文
+const ThemeContext = React.createContext('light');
+
+function MyContext() {
+    return (
+        <ThemeContext.Provider props ="dark">
+            <Child >
+                <grandchildren></grandchildren>
+            </Child>
+        </ThemeContext.Provider>
+    );
+}
+
+function Child() {
+    const theme = ThemeContext.useContext();
+    return <div>当前主题：{theme}</div>;
+}
+
+function grandchildren() {
+    const theme = ThemeContext.useContext();
+    return <div>当前主题：{theme}</div>;
+}
+
 // 主应用组件
 const App = () => (
     <div>
 {/*        <Welcome name="Alice" />
         <Counter />*/}
         <FunCounter/>
+        <MyContext/>
     </div>
 );
 

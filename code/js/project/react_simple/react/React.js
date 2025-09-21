@@ -230,6 +230,41 @@ function useRef(initialValue) {
     return instance.hooks[index]
 }
 
+function createContext(defaultValue) {
+    const context = {
+        value: defaultValue,
+        subscribers: new Set(),
+    };
+
+    function Provider({ value, children }) {
+        context.value = value;
+        context.subscribers.forEach(update => update());
+        return children || null;  // 👈 修复点
+    }
+
+    function useContext() {
+        const currentComponent = window.getCurrentComponent();
+        if (!currentComponent) {
+            throw new Error("useContext must be called inside a component");
+        }
+
+        // 本地状态，保证组件能重新渲染
+        const [_, setState] = window.useState(0);
+
+        // 订阅变化
+        React.useEffect(() => {
+            const update = () => setState(s => s + 1); // 强制刷新
+            context.subscribers.add(update);
+            return () => context.subscribers.delete(update);
+        }, []);
+
+        return context.value;
+    }
+
+    return { Provider, useContext };
+}
+
+
 // 导出 React API
 const React = {
     createElement,
@@ -239,6 +274,8 @@ const React = {
     useCallback,  //performance improvement
     useRef,
     useReducer,
+    createContext,
+
     Component
 }
 

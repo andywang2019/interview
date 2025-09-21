@@ -793,8 +793,23 @@ function FunCounter() {
             })
     }, "Reset")));
 }
+// 创建上下文
+const ThemeContext = (0, _reactDefault.default).createContext('light');
+function MyContext() {
+    return /*#__PURE__*/ (0, _reactDefault.default).createElement(ThemeContext.Provider, {
+        props: "dark"
+    }, /*#__PURE__*/ (0, _reactDefault.default).createElement(Child, null, /*#__PURE__*/ (0, _reactDefault.default).createElement("grandchildren", null)));
+}
+function Child() {
+    const theme = ThemeContext.useContext();
+    return /*#__PURE__*/ (0, _reactDefault.default).createElement("div", null, "\u5F53\u524D\u4E3B\u9898\uFF1A", theme);
+}
+function grandchildren() {
+    const theme = ThemeContext.useContext();
+    return /*#__PURE__*/ (0, _reactDefault.default).createElement("div", null, "\u5F53\u524D\u4E3B\u9898\uFF1A", theme);
+}
 // 主应用组件
-const App = ()=>/*#__PURE__*/ (0, _reactDefault.default).createElement("div", null, /*#__PURE__*/ (0, _reactDefault.default).createElement(FunCounter, null));
+const App = ()=>/*#__PURE__*/ (0, _reactDefault.default).createElement("div", null, /*#__PURE__*/ (0, _reactDefault.default).createElement(FunCounter, null), /*#__PURE__*/ (0, _reactDefault.default).createElement(MyContext, null));
 // 渲染到DOM
 (0, _reactDOMDefault.default).render(/*#__PURE__*/ (0, _reactDefault.default).createElement(App, null), document.getElementById('root')); //console.log(ele);
 
@@ -842,7 +857,7 @@ function executeEffects(instance) {
     });
 }
 // 设置DOM属性
-function setAttributes(dom, props) {
+function setAttributes(dom, props = {}) {
     Object.keys(props).filter((key)=>key !== "children").forEach((name)=>{
         const value = props[name];
         if (name === "ref") {
@@ -944,6 +959,11 @@ function render(element, container) {
 }
 function _render(element, container) {
     if (!element) return;
+    if (element === null || element === undefined) return;
+    // 如果不是对象（比如 boolean），直接跳过
+    if (typeof element !== "object") return;
+    // 防御：props 至少是个空对象
+    const { type, props = {} } = element;
     if (typeof element.type === "function") {
         element = createComponentElement(element);
         _render(element, container);
@@ -1272,6 +1292,34 @@ function useRef(initialValue) {
     };
     return instance.hooks[index];
 }
+function createContext(defaultValue) {
+    const context = {
+        value: defaultValue,
+        subscribers: new Set()
+    };
+    function Provider({ value, children }) {
+        context.value = value;
+        context.subscribers.forEach((update)=>update());
+        return children || null; // 👈 修复点
+    }
+    function useContext() {
+        const currentComponent = window.getCurrentComponent();
+        if (!currentComponent) throw new Error("useContext must be called inside a component");
+        // 本地状态，保证组件能重新渲染
+        const [_, setState] = window.useState(0);
+        // 订阅变化
+        React.useEffect(()=>{
+            const update = ()=>setState((s)=>s + 1); // 强制刷新
+            context.subscribers.add(update);
+            return ()=>context.subscribers.delete(update);
+        }, []);
+        return context.value;
+    }
+    return {
+        Provider,
+        useContext
+    };
+}
 // 导出 React API
 const React = {
     createElement,
@@ -1283,6 +1331,7 @@ const React = {
     //performance improvement
     useRef,
     useReducer,
+    createContext,
     Component: (0, _component.Component)
 };
 exports.default = React; //export default {
