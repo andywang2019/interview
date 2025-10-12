@@ -1,23 +1,25 @@
+
+
 import logo from './logo.svg';
 import './App.css';
 import Admin from "./pages/admin/admin";
 import {Route, Routes, BrowserRouter as Router, Navigate} from "react-router-dom";
 import {Layout} from "antd";
 import Login from "./pages/login/login";
-
+/*
 function App() {
   return (
     <div className="App">
         <Router>
-            <Routes> {/*只匹配其中一个*/}
+            <Routes> {}
 
 
                 <Route path='/login' element={<Login/>}></Route>
 
-                {/* <Route path='/' element={<Admin/>}></Route>*/}
-             {/*   <Route path="/" element={<Navigate to="/admin" replace />} />*/}
+                {}
+             {}
 
-                {/* Protected admin route */}
+                {}
                 <Route path="/*" element={
                     <Layout style={{ minHeight: '100vh' }}>
                         <Admin />
@@ -33,3 +35,71 @@ function App() {
 }
 
 export default App;
+
+*/
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
+import {increment, decrement} from './redux/actions'
+
+export default class App extends Component {
+
+    static propTypes = {
+        store: PropTypes.object.isRequired
+    }
+
+
+
+    constructor(props) {
+        super(props)
+
+        this.numberRef = React.createRef()
+    }
+
+    increment = () => {
+        const number = this.numberRef.current.value * 1
+        this.props.store.dispatch(increment(number))
+    }
+
+    decrement = () => {
+        const number = this.numberRef.current.value * 1
+        this.props.store.dispatch(decrement(number))
+    }
+
+    incrementIfOdd = () => {
+        const number = this.numberRef.current.value * 1
+        if (this.props.store.getState() % 2 === 1) {
+            this.props.store.dispatch(increment(number))
+        }
+
+    }
+
+    incrementAsync = () => {
+        const number = this.numberRef.current.value * 1
+        setTimeout(() => {
+            this.props.store.dispatch(increment(number))
+        }, 1000)
+    }
+
+    render() {
+        const count = this.props.store.getState()
+
+        return (
+            <div>
+                <p>click {count} times</p>
+
+                <div>
+                    <select ref={this.numberRef}>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select> &nbsp;&nbsp;
+                    <button onClick={this.increment}>+</button>&nbsp;&nbsp;
+                    <button onClick={this.decrement}>-</button>&nbsp;&nbsp;
+                    <button onClick={this.incrementIfOdd}>increment if odd</button>&nbsp;&nbsp;
+                    <button onClick={this.incrementAsync}>increment async</button>
+                </div>
+            </div>
+        )
+    }
+}
+*/

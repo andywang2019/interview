@@ -29,7 +29,7 @@ class Login extends Component {
         .validateFields()
         .then(async (values) => {
             console.log(values);
-            const result = await reqLogin(values.username, values.password) // {status: 0, data: user}  {status: 1, msg: 'xxx'}
+            const result = { username: "admin", password: "admin" }//await reqLogin(values.username, values.password) // {status: 0, data: user}  {status: 1, msg: 'xxx'}
              console.log('请求成功', result)
             if (result.status===0) { // 登陆成功
                 // 提示登陆成功

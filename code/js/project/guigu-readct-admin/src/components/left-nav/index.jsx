@@ -2,14 +2,14 @@ import React, {Component} from 'react'
 import {Link,useLocation,useNavigate } from 'react-router-dom'
 import {Menu} from 'antd';
 import withRouter from '../../utils/withRouter'
-
+import {connect} from 'react-redux'
+import {setHeadTitle} from '../../redux/actions'
 import logo from '../../assets/images/logo.png'
 import menuList from '../../config/menuConfig'
 import './index.less'
 import memoryUtils from "../../utils/memoryUtils";
 
 const SubMenu = Menu.SubMenu;
-
 
 
 /*
@@ -118,7 +118,7 @@ class LeftNav extends Component {
         if(!item.children) {
           pre.push((
             <Menu.Item key={item.key}>
-              <Link to={item.key}>
+              <Link to={item.key} onClick={() => this.props.setHeadTitle(item.title)}>
               {/*  <Icon type={item.icon}/>*/}
                 <span>{item.title}</span>
               </Link>
@@ -206,5 +206,8 @@ withRouter高阶组件:
 新的组件向非路由组件传递3个属性: history/location/match
  */
 
-
-export default withRouter(LeftNav);
+export default connect(
+    state => ({user: state.user}),
+    {setHeadTitle}
+)(withRouter(LeftNav))
+//export default withRouter(LeftNav);

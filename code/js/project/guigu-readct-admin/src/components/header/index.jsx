@@ -10,6 +10,8 @@ import memoryUtils from '../../utils/memoryUtils'
 import storageUtils from '../../utils/storageUtils'
 import './index.less'
 
+import {connect} from 'react-redux'
+import {logout} from '../../redux/actions'
 /*
 左侧导航的组件
  */
@@ -108,7 +110,7 @@ class Header extends Component {
     const username = memoryUtils.user.username
 
     // 得到当前需要显示的title
-    const title = this.getTitle()
+    const title =this.props.headTitle// this.getTitle()
     return (
       <div className="header">
         <div className="header-top">
@@ -128,4 +130,9 @@ class Header extends Component {
   }
 }
 
-export default withRouter(Header)
+export default connect(
+    state => ({headTitle: state.headTitle, user: state.user}),
+    {logout}
+)(withRouter(Header))
+
+//export default withRouter(Header)
