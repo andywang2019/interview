@@ -25,10 +25,10 @@ public class OrderController {
     public Order create(@RequestBody Order order) {
         return repo.save(order);
     }
-    @Operation(summary = "update订单", description = "提交一个新的订单")
+    @Operation(summary = "update订单", description = "更新订单")
     @PutMapping
     public Order update(@RequestBody Order order) {
-        return repo.save(order);
+        return repo.saveAndFlush(order);
     }
 
     @Operation(summary = "查询订单列表", description = "获取所有订单信息")
@@ -37,10 +37,9 @@ public class OrderController {
         return repo.findAll();
     }
     @Operation(summary = "查询订单", description = "获取id为特定编号的订单信息")
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/detail")  //orders/2/detail
     public Order findById(@PathVariable("id") Long id) {
-        return repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Order not found: " + id));
+        return repo.findById(id).orElseThrow(() -> new RuntimeException("Order not found: " + id));
     }
     
    
