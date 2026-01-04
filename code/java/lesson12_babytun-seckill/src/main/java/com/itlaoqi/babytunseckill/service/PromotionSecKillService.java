@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-
+class MySysc{}
 @Service
 public class PromotionSecKillService {
     @Resource
@@ -30,6 +30,7 @@ public class PromotionSecKillService {
     private RedisTemplate redisTemplate;
    // @Resource //RabbitMQ客户端
    // private RabbitTemplate rabbitTemplate;
+    MySysc a;
 
 
     @Resource //Kafkaclient
@@ -65,7 +66,7 @@ public class PromotionSecKillService {
 
 
     }
-    public String direct_processSecKill(Long psId, String userid, Integer num) throws SecKillException {
+    public String direct_processSecKill(Long psId, String userid, Integer num) throws SecKillException, InterruptedException {
         PromotionSecKill ps = promotionSecKillDAO.findById(psId);
         if (ps == null) {
             //秒杀活动不存在
@@ -76,8 +77,24 @@ public class PromotionSecKillService {
         } else if (ps.getStatus() == 2) {
             throw new SecKillException("秒杀活动已经结束");
         }
-        if(ps.getPsCount()>0)
-        ps.setPsCount(ps.getPsCount()-1);
+
+        synchronized(this) {
+            if(ps.getPsCount()>0) {
+                int tmp= ps.getPsCount() ;
+       /*     try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            */
+
+                System.out.println(Thread.currentThread()+"count:"+tmp);
+                ps.setPsCount(tmp-1);
+            }
+        }
+
+
+
         promotionSecKillDAO.update(ps);
         Order order = new Order();
         String orderNo=UUID.randomUUID().toString();

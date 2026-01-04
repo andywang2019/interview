@@ -70,6 +70,8 @@ public class SecKillController {
         } catch (SecKillException e) {
             result.put("code", "500");
             result.put("message", e.getMessage());
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
         return result;
     }
