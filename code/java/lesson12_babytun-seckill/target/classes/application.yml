@@ -1,0 +1,58 @@
+server:
+  #port: 81
+spring:
+  freemarker:
+    template-loader-path: classpath:/templates/
+    suffix: .ftl
+    charset: UTF-8
+    content-type: text/html
+    cache: false
+  data:
+    redis:
+      host: 10.0.0.135 # Redis服务器地址 34.168.230.83 #
+      database: 0 # Redis数据库索引（默认为0）
+      port: 6379 # Redis服务器连接端口
+      password: # Redis服务器连接密码（默认为空）
+      timeout: 300ms # 连接超时时间（毫秒）
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://10.0.0.135:3306/babytun?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: root
+
+  kafka:
+    bootstrap-servers: 10.0.0.135:9092
+    consumer:
+      group-id: my-new-group
+      # 手动ACK，需要你在代码中调用 acknowledgment.acknowledge()
+      enable-auto-commit: false
+      #auto-offset-reset: earliest
+      # 单次 poll 拉取消息数量，相当于 RabbitMQ prefetch = 10
+      max-poll-records: 10
+      # 自动转换消息
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      acks: 0              # 等价于 all
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+    listener:
+      # 配置 Kafka Listener 使用手动 ack
+      ack-mode: manual # 或 manual_immediate
+  #rabbitmq:
+  #  host: 10.0.0.135
+  #  port: 5672
+  #  username: guest
+  #  password: guest
+  #  virtual-host: /
+  #  listener:
+  #    simple:
+  #      #定义消费者做多同时处理10个消息
+  #      prefetch: 10
+  #      #消息手动确认
+  #      acknowledge-mode: manual
+mybatis:
+  mapper-locations: classpath:/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true

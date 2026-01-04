@@ -1,0 +1,10 @@
+C:\Users\ET\Downloads\zhitongguigu\lecure\seckill\code\backend\babytun-seckill\src\main\java\com\itlaoqi\babytunseckill\BabytunSeckillApplication.java
+C:\Users\ET\Downloads\zhitongguigu\lecure\seckill\code\backend\babytun-seckill\src\main\java\com\itlaoqi\babytunseckill\controller\SecKillController.java
+C:\Users\ET\Downloads\zhitongguigu\lecure\seckill\code\backend\babytun-seckill\src\main\java\com\itlaoqi\babytunseckill\dao\OrderDAO.java
+C:\Users\ET\Downloads\zhitongguigu\lecure\seckill\code\backend\babytun-seckill\src\main\java\com\itlaoqi\babytunseckill\dao\PromotionSecKillDAO.java
+C:\Users\ET\Downloads\zhitongguigu\lecure\seckill\code\backend\babytun-seckill\src\main\java\com\itlaoqi\babytunseckill\entity\Order.java
+C:\Users\ET\Downloads\zhitongguigu\lecure\seckill\code\backend\babytun-seckill\src\main\java\com\itlaoqi\babytunseckill\entity\PromotionSecKill.java
+C:\Users\ET\Downloads\zhitongguigu\lecure\seckill\code\backend\babytun-seckill\src\main\java\com\itlaoqi\babytunseckill\scheduler\SecKillTask.java
+C:\Users\ET\Downloads\zhitongguigu\lecure\seckill\code\backend\babytun-seckill\src\main\java\com\itlaoqi\babytunseckill\service\exception\SecKillException.java
+C:\Users\ET\Downloads\zhitongguigu\lecure\seckill\code\backend\babytun-seckill\src\main\java\com\itlaoqi\babytunseckill\service\OrderConsumer.java
+C:\Users\ET\Downloads\zhitongguigu\lecure\seckill\code\backend\babytun-seckill\src\main\java\com\itlaoqi\babytunseckill\service\PromotionSecKillService.java
