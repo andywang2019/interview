@@ -23,23 +23,26 @@ spring:
   kafka:
     bootstrap-servers: 10.0.0.135:9092
     consumer:
-      group-id: my-new-group
+      group-id: latest-my-new-group
       # 手动ACK，需要你在代码中调用 acknowledgment.acknowledge()
       enable-auto-commit: false
-      #auto-offset-reset: earliest
+      auto-offset-reset: latest
       # 单次 poll 拉取消息数量，相当于 RabbitMQ prefetch = 10
       max-poll-records: 10
       # 自动转换消息
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
     producer:
-      acks: 0              # 等价于 all
+      acks: -1              # 等价于 all(不会丢失)
+      enable:
+        idempotence : true  #(不会重复)
+
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
     listener:
       # 配置 Kafka Listener 使用手动 ack
-      ack-mode: manual # 或 manual_immediate
+      ack-mode:  manual_immediate #manual
   #rabbitmq:
   #  host: 10.0.0.135
   #  port: 5672
