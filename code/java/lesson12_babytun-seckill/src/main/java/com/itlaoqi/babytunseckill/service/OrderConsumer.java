@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import com.itlaoqi.babytunseckill.dao.OrderDAO;
 import com.itlaoqi.babytunseckill.entity.Order;
 
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -28,20 +29,33 @@ public class OrderConsumer {
     private OrderDAO orderDAO;
 
     @KafkaListener(
-            topics = "new-order-topic"//,        // 替代 RabbitMQ 的 queue-order
+            topics = "new-order-topic",//,        // 替代 RabbitMQ 的 queue-order
            // groupId = "order-consumer"     // 消费组
+    concurrency = "3"
     )
 
 
-    public void handleMessage(String msg,
+    public void handleMessage( ConsumerRecord<String, String> record,
                               Acknowledgment ack) {
-        Map<String, Object> data = JSON.parseObject(msg, Map.class);
+       // Map<String, Object> data = JSON.parseObject(msg, Map.class);
+        Map<String, Object> data =
+                JSON.parseObject(record.value(), Map.class);
         System.out.println("=======获取到订单数据: " + data + "==============");
+        System.out.printf(
+                "Thread=%s, topic=%s, partition=%d, offset=%d%n",
+                Thread.currentThread().getName(),
+                record.topic(),
+                record.partition(),
+                record.offset()
+        );
+
+
 
         try {
+            //int a =1/0;
             // 模拟处理业务，例如支付/物流/日志等
             try {
-                Thread.sleep(10000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -58,8 +72,11 @@ public class OrderConsumer {
             order.setCreateTime(new Date());
             orderDAO.insert(order);
             // 手动提交 offset
-          // int a= 1/0;
-            ack.acknowledge();
+//
+            ack.acknowledge(); //springboot wrap spring后台有可能提交,也有可能没提交成功 -> karfka.commitSysnc()
+
+
+
             System.out.println(data.get("orderNo") + "订单已创建");
         } catch (Exception e) {
             e.printStackTrace();
